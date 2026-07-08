@@ -1,0 +1,93 @@
+.cv-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn var(--transition-normal);
+}
+
+.cv-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cv-list-header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.cv-list-header p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.table-container {
+  background: var(--bg-surface);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 0;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  overflow: hidden;
+  box-shadow: var(--glass-shadow);
+}
+
+.cv-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.cv-table th {
+  padding: 16px 24px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cv-table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.cv-table tbody tr {
+  transition: background var(--transition-fast);
+  cursor: pointer;
+}
+
+.cv-table tbody tr:hover {
+  background: rgba(56, 189, 248, 0.05);
+}
+
+.cv-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cv-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+.cv-icon {
+  color: var(--accent-primary);
+  font-size: 1.25rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--accent-primary);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
