@@ -104,7 +104,7 @@ const QuestionsList = () => {
               <div 
                 key={q.id} 
                 className="question-card"
-                onClick={() => navigate(`/cvs/${q.cv_id}`)}
+                onClick={() => navigate(`/questions/${q.id}`)}
               >
                 <div className="question-card-header">
                   <span className="cv-badge">{q.cv_name}</span>
