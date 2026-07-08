@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import CVUpload from './pages/CVUpload/CVUpload';
 import CVList from './pages/CVList/CVList';
 import CVDetails from './pages/CVDetails/CVDetails';
+import QuestionsList from './pages/QuestionsList/QuestionsList';
 
 function App() {
   return (
@@ -25,7 +26,9 @@ function App() {
           <Route path="/upload-cv" element={<CVUpload />} />
           <Route path="/cvs" element={<CVList />} />
           <Route path="/cvs/:id" element={<CVDetails />} />
+          <Route path="/questions" element={<QuestionsList />} />
         </Route>
+
       </Routes>
     </BrowserRouter>
   );

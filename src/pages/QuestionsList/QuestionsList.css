@@ -1,0 +1,139 @@
+.questions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.questions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title h1 {
+  margin: 0 0 8px 0;
+  font-size: 2rem;
+  color: var(--text-primary);
+}
+
+.header-title p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  background: var(--bg-surface);
+  padding: 8px;
+  border-radius: var(--border-radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  width: fit-content;
+}
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.filter-btn.active {
+  background: var(--accent-primary);
+  color: white;
+}
+
+.questions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 16px;
+}
+
+.question-card {
+  background: var(--bg-surface);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-md);
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.question-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.question-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cv-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-secondary);
+  background: rgba(167, 139, 250, 0.1);
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.status-answered {
+  color: var(--success);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.status-unanswered {
+  color: var(--warning);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.question-text {
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.question-claim {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.claim-icon {
+  color: var(--accent-secondary);
+}
+
+.empty-state {
+  padding: 48px;
+  text-align: center;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  border-radius: var(--border-radius-md);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}

@@ -1,36 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { cvApi } from '../../services/api';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  // Mock data for initial design
-  const stats = [
-    { title: 'Total CVs', value: '4', icon: '📄' },
-    { title: 'Total Claims Extracted', value: '32', icon: '✨' },
-    { title: 'Avg. Interview Score', value: '85%', icon: '🎯' },
-  ];
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const data = await cvApi.getStats();
+        setStats(data);
+      } catch (err) {
+        setError(err.message || 'Failed to load dashboard stats');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchStats();
+  }, []);
 
-  const recentActivities = [
-    { id: 1, cvName: 'Frontend_Developer_Resume.pdf', date: '2 hours ago', score: '88%' },
-    { id: 2, cvName: 'Software_Engineer_2023.pdf', date: '1 day ago', score: '82%' },
+  if (loading) {
+    return (
+      <div className="dashboard-container" style={{ justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem' }}>Loading dashboard...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="dashboard-container">
+        <div style={{ padding: '24px', background: 'rgba(239, 68, 68, 0.1)', color: 'var(--error)', borderRadius: 'var(--border-radius-md)' }}>
+          {error}
+        </div>
+      </div>
+    );
+  }
+
+  const statCards = [
+    { title: 'Total Claims Extracted', value: stats.total_claims, icon: '✨', onClick: () => navigate('/cvs') },
+    { title: 'Avg. Interview Score', value: stats.avg_score, icon: '🎯' },
+    { title: 'Answered Questions', value: stats.total_answered, icon: '✅', onClick: () => navigate('/questions?filter=answered') },
+    { title: 'Unanswered Questions', value: stats.total_unanswered, icon: '⏳', onClick: () => navigate('/questions?filter=unanswered') }
   ];
 
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h1>Welcome Back, Omar</h1>
+        <h1>Welcome Back</h1>
         <p>Here is an overview of your interview preparations.</p>
       </div>
 
       <div className="stats-grid">
-        {stats.map((stat, index) => (
+        {statCards.map((stat, index) => (
           <div 
-            className="stat-card clickable" 
+            className={`stat-card ${stat.onClick ? 'clickable' : ''}`} 
             key={index} 
-            onClick={() => navigate('/cvs')}
-            style={{ cursor: 'pointer' }}
+            onClick={stat.onClick}
+            style={{ cursor: stat.onClick ? 'pointer' : 'default' }}
           >
             <div className="stat-icon">{stat.icon}</div>
             <div className="stat-content">
@@ -53,8 +85,8 @@ const Dashboard = () => {
       <div className="recent-activity">
         <h2>Recent Interviews</h2>
         <div className="activity-list">
-          {recentActivities.length > 0 ? (
-            recentActivities.map(activity => (
+          {stats.recent_activities.length > 0 ? (
+            stats.recent_activities.map(activity => (
               <div 
                 className="activity-item clickable-activity" 
                 key={activity.id}
@@ -62,7 +94,7 @@ const Dashboard = () => {
               >
                 <div className="activity-info">
                   <h4>{activity.cvName}</h4>
-                  <p>Analyzed {activity.date}</p>
+                  <p>Uploaded {new Date(activity.date).toLocaleDateString()}</p>
                 </div>
                 <div className="activity-score">Score: {activity.score}</div>
               </div>
