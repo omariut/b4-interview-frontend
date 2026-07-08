@@ -43,10 +43,10 @@ const Dashboard = () => {
   }
 
   const statCards = [
-    { title: 'Total Claims Extracted', value: stats.total_claims, icon: '✨', onClick: () => navigate('/cvs') },
-    { title: 'Avg. Interview Score', value: stats.avg_score, icon: '🎯' },
+    { title: 'Unanswered Questions', value: stats.total_unanswered, icon: '⏳', onClick: () => navigate('/questions?filter=unanswered') },
     { title: 'Answered Questions', value: stats.total_answered, icon: '✅', onClick: () => navigate('/questions?filter=answered') },
-    { title: 'Unanswered Questions', value: stats.total_unanswered, icon: '⏳', onClick: () => navigate('/questions?filter=unanswered') }
+    { title: 'Total Claims Extracted', value: stats.total_claims, icon: '✨', onClick: () => navigate('/cvs') },
+    { title: 'Avg. Interview Score', value: stats.avg_score, icon: '🎯' }
   ];
 
   return (
@@ -76,9 +76,6 @@ const Dashboard = () => {
       <div style={{ display: 'flex', gap: '16px', marginTop: '16px' }}>
         <button className="btn-primary" onClick={() => navigate('/upload-cv')}>
           + Upload New CV
-        </button>
-        <button className="btn-secondary" onClick={() => navigate('/cvs')}>
-          View All CVs
         </button>
       </div>
 

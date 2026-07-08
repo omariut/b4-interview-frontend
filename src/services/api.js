@@ -102,13 +102,14 @@ export const cvApi = {
 
 export const interviewApi = {
   getAllQuestions: () => fetchWithAuth('/interview/questions/all'),
-  submitAnswer: (questionId, answer_text, llm_level = "high") => {
+  getQuestionById: (id) => fetchWithAuth(`/interview/questions/${id}`),
+  submitAnswer: (questionId, answer_text) => {
     return fetchWithAuth(`/interview/questions/${questionId}/answer`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ answer_text, llm_level })
+      body: JSON.stringify({ answer_text })
     });
   },
   submitFeedback: (answerId, feedback_rating) => {
