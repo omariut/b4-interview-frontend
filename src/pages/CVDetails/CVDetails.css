@@ -1,0 +1,216 @@
+.cv-details-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  animation: fadeIn var(--transition-normal);
+  padding-bottom: 64px;
+}
+
+.cv-header {
+  background: var(--bg-surface);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 32px;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cv-title-section h1 {
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cv-title-section p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.cv-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.section-container {
+  background: var(--bg-surface);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 32px;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 16px;
+}
+
+.section-header h2 {
+  margin: 0;
+}
+
+/* Claims List */
+.claims-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.claim-item {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.claim-icon {
+  color: var(--accent-primary);
+  margin-top: 2px;
+}
+
+.question-clickable {
+  background: rgba(0, 0, 0, 0.2); 
+  border-left: 3px solid var(--accent-secondary);
+  padding: 12px 16px; 
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.question-clickable:hover {
+  background: rgba(56, 189, 248, 0.1);
+  transform: translateX(4px);
+  border-left-color: var(--accent-primary);
+}
+
+/* Interview Section */
+.question-card {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 24px;
+  border-radius: var(--border-radius-sm);
+  margin-bottom: 24px;
+  border-left: 4px solid var(--accent-primary);
+}
+
+.question-text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin: 0 0 16px 0;
+}
+
+.answer-textarea {
+  width: 100%;
+  min-height: 120px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-sm);
+  padding: 16px;
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color var(--transition-fast);
+  box-sizing: border-box;
+}
+
+.answer-textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Feedback Section */
+.feedback-card {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--success);
+  border-radius: var(--border-radius-sm);
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.feedback-score {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 16px;
+}
+
+.feedback-text {
+  line-height: 1.6;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn var(--transition-fast);
+}
+
+.modal-content {
+  background: var(--bg-color);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 32px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 16px;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.modal-close:hover {
+  color: var(--error);
+}
+
+.history-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-sm);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
