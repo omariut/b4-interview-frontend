@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cvApi } from '../../services/api';
+import CVThumbnail from '../../components/CVThumbnail';
 import './CVList.css';
 
 const CVList = () => {
@@ -58,8 +59,10 @@ const CVList = () => {
 
       <div className="cv-stats-banner">
         <div className="stat-item">
-          <span className="stat-label">Total Uploads</span>
-          <span className="stat-val">{cvs.length}</span>
+          <span className="stat-label">Total Uploads (Max 3)</span>
+          <span className="stat-val" style={{ color: cvs.length > 3 ? 'var(--error)' : 'inherit' }}>
+            {cvs.length} / 3
+          </span>
         </div>
         <div className="stat-item">
           <span className="stat-label">Total Claims Extracted</span>
@@ -87,9 +90,9 @@ const CVList = () => {
               {cvs.map((cv) => (
                 <tr key={cv.id}>
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ color: 'var(--accent-primary)' }}>📄</span>
-                      {cv.name}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <CVThumbnail cvId={cv.id} />
+                      <span style={{ fontWeight: '500' }}>{cv.name}</span>
                     </div>
                   </td>
                   <td>{new Date(cv.dateUploaded).toLocaleDateString()}</td>

@@ -9,8 +9,24 @@ const CVUpload = () => {
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [progressMessage, setProgressMessage] = useState('');
+  const [cvCount, setCvCount] = useState(0);
+  const [loadingCount, setLoadingCount] = useState(true);
   const inputRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCVCount = async () => {
+      try {
+        const data = await cvApi.getAll();
+        setCvCount(data.length);
+      } catch (err) {
+        console.error("Failed to fetch CVs", err);
+      } finally {
+        setLoadingCount(false);
+      }
+    };
+    fetchCVCount();
+  }, []);
 
   useEffect(() => {
     let timers = [];
@@ -96,37 +112,49 @@ const CVUpload = () => {
       <div className="cv-upload-header">
         <h1>Upload CV</h1>
         <p>Upload your resume to extract claims and generate interview questions.</p>
+        <p style={{ color: 'var(--accent-primary)', fontWeight: '500', fontSize: '0.9rem', marginTop: '4px' }}>Note: You can upload a maximum of 3 CVs per account.</p>
       </div>
 
-      {uploadStatus !== 'uploading' && uploadStatus !== 'success' && (
-        <div 
-          className={`upload-zone ${dragActive ? 'drag-active' : ''}`}
-          onDragEnter={handleDrag}
-          onDragLeave={handleDrag}
-          onDragOver={handleDrag}
-          onDrop={handleDrop}
-          onClick={onButtonClick}
-        >
-          <div className="upload-icon">📤</div>
-          <h3>Drag & Drop your CV here</h3>
-          <p>Supports PDF (Max size: 5MB)</p>
-          <button 
-            className="btn-primary" 
-            onClick={(e) => {
-              e.stopPropagation();
-              onButtonClick();
-            }}
-          >
-            Browse Files
-          </button>
-          <input 
-            ref={inputRef}
-            type="file" 
-            className="file-input" 
-            accept=".pdf,application/pdf"
-            onChange={handleChange}
-          />
+      {loadingCount ? (
+        <div style={{ padding: '48px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+          Checking upload permissions...
         </div>
+      ) : cvCount >= 3 ? (
+        <div className="upload-status error" style={{ background: 'rgba(239, 68, 68, 0.1)', color: 'var(--error)', padding: '24px', borderRadius: '8px', textAlign: 'center', marginTop: '24px', border: '1px solid var(--error)' }}>
+          <div style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '8px' }}>🚫 Upload Limit Reached</div>
+          <div>You have reached the maximum limit of 3 uploaded CVs.</div>
+        </div>
+      ) : (
+        uploadStatus !== 'uploading' && uploadStatus !== 'success' && (
+          <div 
+            className={`upload-zone ${dragActive ? 'drag-active' : ''}`}
+            onDragEnter={handleDrag}
+            onDragLeave={handleDrag}
+            onDragOver={handleDrag}
+            onDrop={handleDrop}
+            onClick={onButtonClick}
+          >
+            <div className="upload-icon">📤</div>
+            <h3>Drag & Drop your CV here</h3>
+            <p>Supports PDF (Max size: 5MB)</p>
+            <button 
+              className="btn-primary" 
+              onClick={(e) => {
+                e.stopPropagation();
+                onButtonClick();
+              }}
+            >
+              Browse Files
+            </button>
+            <input 
+              ref={inputRef}
+              type="file" 
+              className="file-input" 
+              accept=".pdf,application/pdf"
+              onChange={handleChange}
+            />
+          </div>
+        )
       )}
 
       {uploadStatus === 'uploading' && (
@@ -146,8 +174,8 @@ const CVUpload = () => {
       )}
 
       {uploadStatus === 'error' && (
-        <div className="upload-status error" style={{ background: 'rgba(239, 68, 68, 0.1)', color: 'var(--error)' }}>
-          ❌ {errorMessage}
+        <div className="upload-status error" style={{ background: 'rgba(239, 68, 68, 0.1)', color: 'var(--error)', padding: '16px', borderRadius: '8px', marginTop: '24px' }}>
+          <div>❌ {errorMessage}</div>
         </div>
       )}
     </div>
