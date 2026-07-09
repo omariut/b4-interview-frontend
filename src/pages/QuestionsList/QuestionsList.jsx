@@ -63,8 +63,30 @@ const QuestionsList = () => {
 
   if (loading) {
     return (
-      <div className="questions-container" style={{ justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem' }}>Loading Questions...</p>
+      <div className="questions-container">
+        <div className="questions-header">
+          <div className="header-title">
+            <div className="skeleton skeleton-title" style={{ width: '300px' }}></div>
+            <div className="skeleton skeleton-text short"></div>
+          </div>
+        </div>
+        <div className="questions-list-container">
+          <div className="questions-grid">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="skeleton-card">
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div className="skeleton" style={{ width: '80px', height: '24px', borderRadius: '12px' }}></div>
+                  <div className="skeleton" style={{ width: '100px', height: '24px', borderRadius: '12px' }}></div>
+                </div>
+                <div>
+                  <div className="skeleton skeleton-text"></div>
+                  <div className="skeleton skeleton-text"></div>
+                  <div className="skeleton skeleton-text short"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

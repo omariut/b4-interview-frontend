@@ -143,8 +143,47 @@ const QuestionDetails = () => {
 
   if (loading) {
     return (
-      <div className="qd-container" style={{ justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem' }}>Loading Question Details...</p>
+      <div className="qd-container">
+        {/* Skeleton Header */}
+        <div className="qd-header">
+          <div className="qd-title-section">
+            <div className="skeleton skeleton-title" style={{ width: '250px' }}></div>
+            <div className="skeleton skeleton-text short"></div>
+          </div>
+          <div className="skeleton" style={{ width: '100px', height: '40px', borderRadius: '8px' }}></div>
+        </div>
+
+        <div className="qd-content-grid">
+          {/* Skeleton Main Col */}
+          <div className="qd-main-col">
+            <div className="skeleton-card">
+              <div className="skeleton skeleton-title" style={{ width: '150px' }}></div>
+              <div className="skeleton" style={{ width: '100%', height: '80px', borderRadius: '8px' }}></div>
+            </div>
+            
+            <div className="skeleton-card">
+              <div className="skeleton skeleton-title" style={{ width: '180px' }}></div>
+              <div className="skeleton skeleton-text"></div>
+              <div className="skeleton skeleton-text"></div>
+              <div className="skeleton skeleton-text short"></div>
+            </div>
+
+            <div className="skeleton-card">
+              <div className="skeleton" style={{ width: '100%', height: '200px', borderRadius: '8px' }}></div>
+            </div>
+          </div>
+
+          {/* Skeleton Sidebar Col */}
+          <div className="qd-sidebar-col">
+            <div className="skeleton-card">
+              <div className="skeleton skeleton-title" style={{ width: '120px' }}></div>
+              <div className="skeleton skeleton-text"></div>
+              <div className="skeleton skeleton-text"></div>
+              <div className="skeleton skeleton-text"></div>
+              <div className="skeleton skeleton-text short"></div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
