@@ -37,28 +37,40 @@ const fetchWithAuth = async (endpoint, options = {}) => {
 };
 
 export const authApi = {
-  // Login API call
-  login: async (phone_number, password) => {
-    // FastAPI's OAuth2PasswordRequestForm requires URL encoded form data
-    const formData = new URLSearchParams();
-    formData.append('username', phone_number);
-    formData.append('password', password);
-
+  // Login with Google API call
+  loginWithGoogle: async (credential) => {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: formData.toString()
+      body: JSON.stringify({ credential })
     });
 
     const data = await response.json();
     
     if (!response.ok) {
-      throw new Error(data.detail || 'Failed to login');
+      throw new Error(data.detail || 'Failed to login with Google');
     }
     
     return data;
+  },
+
+  // Get current user details
+  getMe: async () => {
+    const token = localStorage.getItem('access_token');
+    const response = await fetch(`${API_BASE_URL}/auth/me`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch user details');
+    }
+    
+    return await response.json();
   },
 
   // Register API call
@@ -97,6 +109,23 @@ export const cvApi = {
       method: 'POST',
       body: formData
     });
+  },
+  getPDFBlob: async (id) => {
+    const headers = getAuthHeaders();
+    const response = await fetch(`${API_BASE_URL}/cv/${id}/pdf`, { headers });
+    if (!response.ok) throw new Error('Failed to fetch PDF');
+    return await response.blob();
+  },
+  delete: async (id) => {
+    return fetchWithAuth(`/cv/${id}`, {
+      method: 'DELETE',
+    });
+  },
+  getThumbnailBlob: async (id) => {
+    const headers = getAuthHeaders();
+    const response = await fetch(`${API_BASE_URL}/cv/${id}/thumbnail`, { headers });
+    if (!response.ok) throw new Error('Failed to fetch thumbnail');
+    return await response.blob();
   }
 };
 
@@ -121,4 +150,8 @@ export const interviewApi = {
       body: JSON.stringify({ feedback_rating })
     });
   }
+};
+
+export const adminApi = {
+  getCosts: () => fetchWithAuth('/admin/costs'),
 };
