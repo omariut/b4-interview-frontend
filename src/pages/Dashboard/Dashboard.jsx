@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cvApi } from '../../services/api';
+import CVThumbnail from '../../components/CVThumbnail';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -89,7 +90,10 @@ const Dashboard = () => {
                 key={activity.id}
                 onClick={() => navigate(`/cvs/${activity.id}`)}
               >
-                <div className="activity-info">
+                <div style={{ marginRight: '16px', display: 'flex', alignItems: 'center' }}>
+                  <CVThumbnail cvId={activity.id} />
+                </div>
+                <div className="activity-info" style={{ flex: 1 }}>
                   <h4>{activity.cvName}</h4>
                   <p>Uploaded {new Date(activity.date).toLocaleDateString()}</p>
                 </div>

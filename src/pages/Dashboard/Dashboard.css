@@ -17,8 +17,15 @@
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
 }
 
 .stat-card {
@@ -71,9 +78,15 @@
   background: var(--bg-surface);
   border: var(--glass-border);
   border-radius: var(--border-radius-md);
-  padding: 24px;
+  padding: 16px; /* mobile padding */
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+}
+
+@media (min-width: 768px) {
+  .recent-activity {
+    padding: 24px;
+  }
 }
 
 .recent-activity h2 {
@@ -91,11 +104,21 @@
 
 .activity-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   padding: 12px;
   border-radius: var(--border-radius-sm);
   background: rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 768px) {
+  .activity-item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+  }
 }
 
 .clickable-activity {
