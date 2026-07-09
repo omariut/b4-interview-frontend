@@ -11,6 +11,8 @@ const QuestionsList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('all'); // 'all', 'answered', 'unanswered'
+  const [selectedCV, setSelectedCV] = useState('all');
+  const [selectedClaim, setSelectedClaim] = useState('all');
 
   // Read URL query params to set initial filter
   useEffect(() => {
@@ -40,9 +42,19 @@ const QuestionsList = () => {
     navigate(`/questions?filter=${newFilter}`, { replace: true });
   };
 
+  const cvNames = Array.from(new Set(questions.map(q => q.cv_name))).filter(Boolean);
+  
+  const availableClaims = Array.from(new Set(
+    questions
+      .filter(q => selectedCV === 'all' || q.cv_name === selectedCV)
+      .map(q => q.claim_text)
+  )).filter(Boolean);
+
   const filteredQuestions = questions.filter(q => {
-    if (filter === 'answered') return q.answered;
-    if (filter === 'unanswered') return !q.answered;
+    if (filter === 'answered' && !q.answered) return false;
+    if (filter === 'unanswered' && q.answered) return false;
+    if (selectedCV !== 'all' && q.cv_name !== selectedCV) return false;
+    if (selectedClaim !== 'all' && q.claim_text !== selectedClaim) return false;
     return true;
   });
 
@@ -77,24 +89,60 @@ const QuestionsList = () => {
       </div>
 
       <div className="filter-bar">
-        <button 
-          className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
-          onClick={() => handleFilterChange('all')}
-        >
-          All ({questions.length})
-        </button>
-        <button 
-          className={`filter-btn ${filter === 'answered' ? 'active' : ''}`}
-          onClick={() => handleFilterChange('answered')}
-        >
-          Answered ({answeredCount})
-        </button>
-        <button 
-          className={`filter-btn ${filter === 'unanswered' ? 'active' : ''}`}
-          onClick={() => handleFilterChange('unanswered')}
-        >
-          Unanswered ({unansweredCount})
-        </button>
+        <div className="filter-group">
+          <button 
+            className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
+            onClick={() => handleFilterChange('all')}
+          >
+            All ({questions.length})
+          </button>
+          <button 
+            className={`filter-btn ${filter === 'answered' ? 'active' : ''}`}
+            onClick={() => handleFilterChange('answered')}
+          >
+            Answered ({answeredCount})
+          </button>
+          <button 
+            className={`filter-btn ${filter === 'unanswered' ? 'active' : ''}`}
+            onClick={() => handleFilterChange('unanswered')}
+          >
+            Unanswered ({unansweredCount})
+          </button>
+        </div>
+        
+        <div className="filter-group">
+          {cvNames.length > 0 && (
+            <select 
+              className="filter-select"
+              value={selectedCV}
+              onChange={(e) => {
+                setSelectedCV(e.target.value);
+                setSelectedClaim('all'); // Reset claim when CV changes
+              }}
+            >
+              <option value="all">All CVs</option>
+              {cvNames.map(cv => (
+                <option key={cv} value={cv}>{cv}</option>
+              ))}
+            </select>
+          )}
+
+          {availableClaims.length > 0 && (
+            <select 
+              className="filter-select"
+              style={{ maxWidth: '200px' }}
+              value={selectedClaim}
+              onChange={(e) => setSelectedClaim(e.target.value)}
+            >
+              <option value="all">All Claims</option>
+              {availableClaims.map(claim => (
+                <option key={claim} value={claim}>
+                  {claim.length > 40 ? claim.substring(0, 40) + '...' : claim}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
       </div>
 
       <div className="questions-list-container">
@@ -107,7 +155,6 @@ const QuestionsList = () => {
                 onClick={() => navigate(`/questions/${q.id}`)}
               >
                 <div className="question-card-header">
-                  <span className="cv-badge">{q.cv_name}</span>
                   <span className={`status-badge ${q.answered ? 'status-answered' : 'status-unanswered'}`}>
                     {q.answered ? '✅ Answered' : '⏳ Unanswered'}
                   </span>
@@ -115,11 +162,6 @@ const QuestionsList = () => {
                 
                 <div className="question-text">
                   {q.text}
-                </div>
-                
-                <div className="question-claim">
-                  <span className="claim-icon">✨</span>
-                  <span>{q.claim_text}</span>
                 </div>
               </div>
             ))}

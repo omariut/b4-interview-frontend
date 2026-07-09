@@ -34,6 +34,20 @@
   --transition-normal: 0.3s ease;
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px; /* Base for mobile */
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px; /* Base for desktop */
+  }
+}
+
 body {
   margin: 0;
   font-family: var(--font-family);
@@ -44,6 +58,7 @@ body {
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 1rem;
 }
 
 /* Global Typography & Utilities */
@@ -51,7 +66,15 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   color: var(--text-primary);
   font-weight: 600;
+  line-height: 1.2;
 }
+
+/* Responsive fluid typography */
+h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); }
+h2 { font-size: clamp(1.5rem, 4vw, 2rem); }
+h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
+h4 { font-size: clamp(1.1rem, 2vw, 1.5rem); }
+p { line-height: 1.6; margin-top: 0; margin-bottom: 1rem; }
 
 a {
   color: var(--accent-primary);

@@ -13,6 +13,8 @@ const QuestionDetails = () => {
 
   const [currentAnswer, setCurrentAnswer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [modalData, setModalData] = useState(null);
+  const [isIdealAnswerOpen, setIsIdealAnswerOpen] = useState(window.innerWidth >= 900);
   
   // Voice Transcription State
   const [isRecording, setIsRecording] = useState(false);
@@ -114,6 +116,13 @@ const QuestionDetails = () => {
       }));
       
       setCurrentAnswer('');
+      
+      // Show Modal
+      setModalData({
+        score: response.score,
+        feedback: response.feedback,
+        suggested_answer: response.suggested_answer
+      });
     } catch (err) {
       setSubmitError(err.message || "Failed to submit answer");
     } finally {
@@ -156,7 +165,7 @@ const QuestionDetails = () => {
       <div className="qd-header">
         <div className="qd-title-section">
           <h1><span className="qd-icon">💬</span> Question Details</h1>
-          <p>ID: {questionData.id} • {questionData.cv_name}</p>
+          <p>ID: {questionData.id}</p>
         </div>
         <div className="qd-actions">
           <button className="btn-secondary" onClick={() => navigate(-1)}>
@@ -169,7 +178,7 @@ const QuestionDetails = () => {
         {/* Left Column: Context and Question */}
         <div className="qd-main-col">
           <div className="qd-card">
-            <h3 className="qd-card-title">Context (From your CV)</h3>
+            <h3 className="qd-card-title">Context (CV: {questionData.cv_name})</h3>
             <div className="qd-claim-box">
               <span className="claim-icon">✨</span>
               <span>{questionData.claim_text}</span>
@@ -185,10 +194,10 @@ const QuestionDetails = () => {
 
           {/* New Answer Input */}
           <div className="qd-card">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <div className="qd-submit-header">
               <h3 className="qd-card-title" style={{ margin: 0 }}>
                 Submit Your Answer
-                {isLimitReached && <span style={{ marginLeft: '12px', fontSize: '0.85rem', padding: '4px 8px', background: 'rgba(239, 68, 68, 0.1)', color: 'var(--error)', borderRadius: '4px' }}>Max 3 attempts reached</span>}
+                {isLimitReached && <span className="qd-limit-badge">Max 3 attempts reached</span>}
               </h3>
               <button 
                 className={`btn-voice ${isRecording ? 'recording' : ''}`}
@@ -234,20 +243,32 @@ const QuestionDetails = () => {
         {/* Right Column: Ideal Answer */}
         <div className="qd-sidebar-col">
           <div className="qd-card" style={{ position: 'sticky', top: '24px' }}>
-            <h3 className="qd-card-title">Ideal Answer</h3>
+            <div 
+              onClick={() => setIsIdealAnswerOpen(!isIdealAnswerOpen)}
+              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', marginBottom: isIdealAnswerOpen ? '16px' : '0' }}
+            >
+              <h3 className="qd-card-title" style={{ margin: 0, borderBottom: 'none', paddingBottom: 0 }}>Ideal Answer</h3>
+              <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', transition: 'transform 0.2s' }}>
+                {isIdealAnswerOpen ? '▲' : '▼'}
+              </span>
+            </div>
             
-            {questionData.answers.find(a => a.suggested_answer) ? (
-              <div className="qd-ideal-block" style={{ marginTop: '0' }}>
-                <h4 style={{ margin: '0 0 8px 0', fontSize: '0.9rem', color: 'var(--primary)' }}>✨ AI Suggested Response:</h4>
-                <div style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
-                  <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)' }}>
-                    {questionData.answers.find(a => a.suggested_answer).suggested_answer}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="qd-empty-history" style={{ padding: '24px' }}>
-                <p style={{ fontSize: '0.9rem' }}>The AI will generate an ideal answer after you submit your first attempt.</p>
+            {isIdealAnswerOpen && (
+              <div style={{ marginTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.05)', paddingTop: '16px' }}>
+                {questionData.answers.find(a => a.suggested_answer) ? (
+                  <div className="qd-ideal-block" style={{ marginTop: '0' }}>
+                    <h4 style={{ margin: '0 0 8px 0', fontSize: '0.9rem', color: 'var(--primary)' }}>✨ AI Suggested Response:</h4>
+                    <div style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
+                      <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)' }}>
+                        {questionData.answers.find(a => a.suggested_answer).suggested_answer}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="qd-empty-history" style={{ padding: '24px' }}>
+                    <p style={{ fontSize: '0.9rem', margin: 0 }}>The AI will generate an ideal answer after you submit your first attempt.</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -272,18 +293,32 @@ const QuestionDetails = () => {
                   const idx = questionData.answers.length - 1 - reverseIdx;
                   return (
                     <tr key={idx}>
-                      <td>
+                      <td className="qd-history-answer-cell">
                         <div className="qd-history-meta">
                           Attempt {idx + 1} • {attempt.date}
-                          <span className="qd-history-score" style={{ marginLeft: '12px', padding: '2px 8px', borderRadius: '12px', background: 'rgba(0,0,0,0.2)', color: getScoreColor(attempt.score) }}>
+                        </div>
+                        <div style={{ marginTop: '8px', marginBottom: '12px' }}>
+                          <span className="qd-history-score" style={{ padding: '4px 10px', borderRadius: '12px', background: 'rgba(0,0,0,0.2)', color: getScoreColor(attempt.score), display: 'inline-block' }}>
                             Score: {attempt.score}/10
                           </span>
                         </div>
                         <div className="qd-history-text">{attempt.answer}</div>
                       </td>
-                      <td>
+                      <td className="qd-history-feedback-cell">
                         {attempt.feedback ? (
-                          <div className="qd-feedback-text">{attempt.feedback}</div>
+                          <>
+                            <div className="qd-feedback-desktop">
+                              <div className="qd-feedback-text">{attempt.feedback}</div>
+                            </div>
+                            <div className="qd-feedback-mobile">
+                              <details className="qd-feedback-details">
+                                <summary className="qd-feedback-summary">
+                                  <span>ℹ️</span> View AI Feedback
+                                </summary>
+                                <div className="qd-feedback-text" style={{ marginTop: '12px' }}>{attempt.feedback}</div>
+                              </details>
+                            </div>
+                          </>
                         ) : (
                           <span style={{ color: 'var(--text-secondary)' }}>No feedback</span>
                         )}
@@ -300,6 +335,42 @@ const QuestionDetails = () => {
           </div>
         )}
       </div>
+      
+      {/* Post-Submission Modal */}
+      {modalData && (
+        <div className="qd-modal-overlay" onClick={() => setModalData(null)}>
+          <div className="qd-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="qd-modal-header">
+              <h2>Answer Graded!</h2>
+              <button className="qd-modal-close" onClick={() => setModalData(null)}>×</button>
+            </div>
+            
+            <div className="qd-modal-body">
+              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                <span className="qd-history-score" style={{ padding: '8px 16px', borderRadius: '16px', background: 'rgba(0,0,0,0.2)', color: getScoreColor(modalData.score), fontSize: '1.25rem', display: 'inline-block' }}>
+                  Score: {modalData.score}/10
+                </span>
+              </div>
+              
+              <div className="qd-feedback-block" style={{ marginBottom: '24px' }}>
+                <h4 style={{ margin: '0 0 8px 0' }}>AI Feedback</h4>
+                <p>{modalData.feedback}</p>
+              </div>
+
+              <div className="qd-ideal-block">
+                <h4 style={{ margin: '0 0 8px 0', color: 'var(--primary)' }}>✨ AI Suggested Response</h4>
+                <div style={{ maxHeight: '200px', overflowY: 'auto', paddingRight: '8px' }}>
+                  <p>{modalData.suggested_answer}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="qd-modal-footer">
+              <button className="btn-primary" onClick={() => setModalData(null)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
