@@ -31,7 +31,20 @@
   z-index: 40;
 }
 
-.sidebar-logo {
+.sidebar-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-logo-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.sidebar-logo-text {
   font-size: 1.25rem;
   font-weight: 700;
   background: var(--accent-gradient);
@@ -150,8 +163,13 @@
     margin-bottom: 24px;
   }
   
-  .sidebar-logo {
+  .sidebar-logo-text {
     font-size: 1.5rem;
+  }
+  
+  .sidebar-logo-img {
+    width: 40px;
+    height: 40px;
   }
 
   .sidebar-nav {

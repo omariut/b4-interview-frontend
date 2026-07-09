@@ -18,7 +18,10 @@ const Sidebar = () => {
     <div className="layout-container">
       {/* Mobile Topbar */}
       <div className="mobile-topbar">
-        <h2 className="sidebar-logo">b4interview</h2>
+        <div className="sidebar-logo-container">
+          <img src="/logo.png" alt="logo" className="sidebar-logo-img" />
+          <h2 className="sidebar-logo-text">b4interview</h2>
+        </div>
         <button className="mobile-logout-btn" onClick={handleLogout}>
           <span className="nav-icon" style={{ marginBottom: 0, marginRight: 0 }}>🚪</span>
           Logout
@@ -27,7 +30,10 @@ const Sidebar = () => {
 
       <nav className="sidebar">
         <div className="sidebar-header">
-          <h2 className="sidebar-logo">b4interview</h2>
+          <div className="sidebar-logo-container">
+            <img src="/logo.png" alt="logo" className="sidebar-logo-img" />
+            <h2 className="sidebar-logo-text">b4interview</h2>
+          </div>
         </div>
         
         <div className="sidebar-nav">
