@@ -1,10 +1,30 @@
-import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { authApi } from '../../services/api';
 import './Sidebar.css';
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    // Auth check or other global sidebar logic if needed
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    navigate('/login');
+  };
+
   return (
     <div className="layout-container">
+      {/* Mobile Topbar */}
+      <div className="mobile-topbar">
+        <h2 className="sidebar-logo">b4interview</h2>
+        <button className="mobile-logout-btn" onClick={handleLogout}>
+          <span className="nav-icon" style={{ marginBottom: 0, marginRight: 0 }}>🚪</span>
+          Logout
+        </button>
+      </div>
+
       <nav className="sidebar">
         <div className="sidebar-header">
           <h2 className="sidebar-logo">b4interview</h2>
@@ -34,6 +54,21 @@ const Sidebar = () => {
             <span className="nav-icon">📄</span>
             My CVs
           </NavLink>
+
+          <NavLink 
+            to="/questions" 
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+          >
+            <span className="nav-icon">❓</span>
+            Questions
+          </NavLink>
+        </div>
+
+        <div className="sidebar-footer">
+          <button className="logout-btn" onClick={handleLogout}>
+            <span className="nav-icon">🚪</span>
+            Logout
+          </button>
         </div>
       </nav>
       

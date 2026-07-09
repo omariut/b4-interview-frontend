@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
-import SignUp from './components/SignUp';
 import Sidebar from './components/Layout/Sidebar';
 
 // New Pages
@@ -18,7 +17,6 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
 
         {/* Protected/Main App Routes wrapped in Sidebar Layout */}
         <Route element={<Sidebar />}>
