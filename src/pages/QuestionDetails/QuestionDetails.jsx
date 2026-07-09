@@ -16,6 +16,7 @@ const QuestionDetails = () => {
   
   // Voice Transcription State
   const [isRecording, setIsRecording] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const recognitionRef = useRef(null);
 
   useEffect(() => {
@@ -74,9 +75,10 @@ const QuestionDetails = () => {
       setIsRecording(false);
     } else {
       if (!recognitionRef.current) {
-        alert("Your browser doesn't support speech recognition. Try Chrome or Safari.");
+        setSubmitError("Your browser doesn't support speech recognition. Try Chrome or Safari.");
         return;
       }
+      setSubmitError('');
       recognitionRef.current.start();
       setIsRecording(true);
     }
@@ -93,6 +95,7 @@ const QuestionDetails = () => {
     if (!currentAnswer.trim() || isSubmitting) return;
     
     setIsSubmitting(true);
+    setSubmitError('');
     try {
       const response = await interviewApi.submitAnswer(questionData.id, currentAnswer);
       
@@ -112,11 +115,13 @@ const QuestionDetails = () => {
       
       setCurrentAnswer('');
     } catch (err) {
-      alert(`Failed to submit answer: ${err.message}`);
+      setSubmitError(err.message || "Failed to submit answer");
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const isLimitReached = questionData?.answers?.length >= 3;
 
   // Cleanup recording on unmount
   useEffect(() => {
@@ -181,11 +186,14 @@ const QuestionDetails = () => {
           {/* New Answer Input */}
           <div className="qd-card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 className="qd-card-title" style={{ margin: 0 }}>Submit Your Answer</h3>
+              <h3 className="qd-card-title" style={{ margin: 0 }}>
+                Submit Your Answer
+                {isLimitReached && <span style={{ marginLeft: '12px', fontSize: '0.85rem', padding: '4px 8px', background: 'rgba(239, 68, 68, 0.1)', color: 'var(--error)', borderRadius: '4px' }}>Max 3 attempts reached</span>}
+              </h3>
               <button 
                 className={`btn-voice ${isRecording ? 'recording' : ''}`}
                 onClick={toggleRecording}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isLimitReached}
                 title="Answer with Voice"
               >
                 {isRecording ? (
@@ -196,17 +204,23 @@ const QuestionDetails = () => {
             
             <textarea 
               className="qd-textarea" 
-              placeholder="Type your answer here or click Voice to speak..."
+              placeholder={isLimitReached ? "You have reached the maximum limit of 3 attempts." : "Type your answer here or click Voice to speak..."}
               value={currentAnswer}
               onChange={(e) => setCurrentAnswer(e.target.value)}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLimitReached}
             />
+            
+            {submitError && (
+              <div style={{ color: 'var(--error)', marginTop: '8px', fontSize: '0.9rem' }}>
+                {submitError}
+              </div>
+            )}
             
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
               <button 
                 className="btn-primary" 
                 onClick={handleSubmitAnswer} 
-                disabled={!currentAnswer.trim() || isSubmitting}
+                disabled={!currentAnswer.trim() || isSubmitting || isLimitReached}
               >
                 {isSubmitting ? (
                    <span>Grading with AI... <span className="spinner">⏳</span></span>
@@ -214,52 +228,77 @@ const QuestionDetails = () => {
               </button>
             </div>
           </div>
-        </div>
 
-        {/* Right Column: History */}
+        </div> {/* End of qd-main-col */}
+
+        {/* Right Column: Ideal Answer */}
         <div className="qd-sidebar-col">
-          <div className="qd-card">
-            <h3 className="qd-card-title">Answer History</h3>
+          <div className="qd-card" style={{ position: 'sticky', top: '24px' }}>
+            <h3 className="qd-card-title">Ideal Answer</h3>
             
-            {questionData.answers.length > 0 ? (
-              <div className="qd-history-list">
-                {questionData.answers.map((attempt, idx) => (
-                  <div key={idx} className="qd-history-item">
-                    <div className="qd-history-header">
-                      <span className="qd-history-meta">Attempt {idx + 1} • {attempt.date}</span>
-                      <span className="qd-history-score" style={{ color: getScoreColor(attempt.score) }}>
-                        Score: {attempt.score}/10
-                      </span>
-                    </div>
-                    
-                    <div className="qd-history-block">
-                      <strong>Your Answer:</strong>
-                      <p>{attempt.answer}</p>
-                    </div>
-                    
-                    {attempt.feedback && (
-                      <div className="qd-feedback-block">
-                        <strong>Feedback:</strong>
-                        <p>{attempt.feedback}</p>
-                      </div>
-                    )}
-                    
-                    {attempt.suggested_answer && (
-                      <div className="qd-ideal-block">
-                        <strong>Ideal Answer:</strong>
-                        <p>{attempt.suggested_answer}</p>
-                      </div>
-                    )}
-                  </div>
-                ))}
+            {questionData.answers.find(a => a.suggested_answer) ? (
+              <div className="qd-ideal-block" style={{ marginTop: '0' }}>
+                <h4 style={{ margin: '0 0 8px 0', fontSize: '0.9rem', color: 'var(--primary)' }}>✨ AI Suggested Response:</h4>
+                <div style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
+                  <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)' }}>
+                    {questionData.answers.find(a => a.suggested_answer).suggested_answer}
+                  </p>
+                </div>
               </div>
             ) : (
-              <div className="qd-empty-history">
-                <p>No attempts yet. Answer the question to see your score and AI feedback!</p>
+              <div className="qd-empty-history" style={{ padding: '24px' }}>
+                <p style={{ fontSize: '0.9rem' }}>The AI will generate an ideal answer after you submit your first attempt.</p>
               </div>
             )}
           </div>
         </div>
+      </div>
+
+      {/* Answer History Table (Full Width) */}
+      <div className="qd-card" style={{ marginTop: '24px' }}>
+        <h3 className="qd-card-title">Answer History</h3>
+        
+        {questionData.answers.length > 0 ? (
+          <div className="qd-history-table-container">
+            <table className="qd-history-table">
+              <thead>
+                <tr>
+                  <th style={{ width: '50%' }}>Your Answer</th>
+                  <th style={{ width: '50%' }}>Feedback</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...questionData.answers].reverse().map((attempt, reverseIdx) => {
+                  const idx = questionData.answers.length - 1 - reverseIdx;
+                  return (
+                    <tr key={idx}>
+                      <td>
+                        <div className="qd-history-meta">
+                          Attempt {idx + 1} • {attempt.date}
+                          <span className="qd-history-score" style={{ marginLeft: '12px', padding: '2px 8px', borderRadius: '12px', background: 'rgba(0,0,0,0.2)', color: getScoreColor(attempt.score) }}>
+                            Score: {attempt.score}/10
+                          </span>
+                        </div>
+                        <div className="qd-history-text">{attempt.answer}</div>
+                      </td>
+                      <td>
+                        {attempt.feedback ? (
+                          <div className="qd-feedback-text">{attempt.feedback}</div>
+                        ) : (
+                          <span style={{ color: 'var(--text-secondary)' }}>No feedback</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="qd-empty-history">
+            <p>No attempts yet. Answer the question to see your score and AI feedback!</p>
+          </div>
+        )}
       </div>
     </div>
   );
