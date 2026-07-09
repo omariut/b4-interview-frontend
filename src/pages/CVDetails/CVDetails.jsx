@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { cvApi, interviewApi } from '../../services/api';
+import CVThumbnail from '../../components/CVThumbnail';
 import './CVDetails.css';
 
 const CLAIMS_PER_PAGE = 3;
@@ -14,16 +15,9 @@ const CVDetails = () => {
   const [error, setError] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const [currentAnswer, setCurrentAnswer] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // Voice Transcription State
-  const [isRecording, setIsRecording] = useState(false);
-  const recognitionRef = useRef(null);
-
-  // Format: { qId: [ { answer: string, score: number, feedback: string, date: string } ] }
-  const [history, setHistory] = useState({});
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState(null);
+  const [pdfError, setPdfError] = useState(false);
 
   useEffect(() => {
     const fetchCVDetails = async () => {
@@ -31,14 +25,7 @@ const CVDetails = () => {
         const data = await cvApi.getById(id);
         setCvData(data);
         
-        // Initialize history from backend data
-        const initialHistory = {};
-        data.claims.forEach(claim => {
-          claim.questions.forEach(q => {
-            initialHistory[q.id] = q.answers || [];
-          });
-        });
-        setHistory(initialHistory);
+        // History logic removed
       } catch (err) {
         setError(err.message || 'Failed to fetch CV details');
       } finally {
@@ -48,55 +35,7 @@ const CVDetails = () => {
     fetchCVDetails();
   }, [id]);
 
-  // Setup Speech Recognition
-  useEffect(() => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      const recognition = new SpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      
-      recognition.onresult = (event) => {
-        let finalTranscript = '';
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-          if (event.results[i].isFinal) {
-            finalTranscript += event.results[i][0].transcript + ' ';
-          }
-        }
-        if (finalTranscript) {
-          setCurrentAnswer(prev => {
-            const separator = prev && !prev.endsWith(' ') ? ' ' : '';
-            return prev + separator + finalTranscript;
-          });
-        }
-      };
-
-      recognition.onerror = (event) => {
-        console.error('Speech recognition error', event.error);
-        setIsRecording(false);
-      };
-
-      recognition.onend = () => {
-        setIsRecording(false);
-      };
-
-      recognitionRef.current = recognition;
-    }
-  }, []);
-
-  const toggleRecording = () => {
-    if (isRecording) {
-      recognitionRef.current?.stop();
-      setIsRecording(false);
-    } else {
-      if (!recognitionRef.current) {
-        alert("Your browser doesn't support speech recognition. Try Chrome or Safari.");
-        return;
-      }
-      recognitionRef.current.start();
-      setIsRecording(true);
-    }
-  };
+  // Speech recognition logic removed
 
   if (loading) {
     return (
@@ -132,22 +71,20 @@ const CVDetails = () => {
 
   const totalQuestions = cvData.claims.reduce((acc, claim) => acc + claim.questions.length, 0);
 
-  // Modal actions
-  const openQuestionModal = (question, index) => {
-    setSelectedQuestion({ ...question, displayIndex: index + 1 });
-    setCurrentAnswer('');
-    setIsRecording(false);
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
-    }
+  const handleQuestionClick = (qId) => {
+    navigate(`/questions/${qId}`);
   };
 
-  const closeQuestionModal = () => {
-    if (!isSubmitting) {
-      setSelectedQuestion(null);
-      if (isRecording && recognitionRef.current) {
-        recognitionRef.current.stop();
-        setIsRecording(false);
+  const openPreviewModal = async () => {
+    setShowPreviewModal(true);
+    if (!pdfUrl && !pdfError) {
+      try {
+        const blob = await cvApi.getPDFBlob(id);
+        const url = URL.createObjectURL(blob);
+        setPdfUrl(url);
+      } catch (err) {
+        console.error('Failed to load PDF preview:', err);
+        setPdfError(true);
       }
     }
   };
@@ -159,43 +96,23 @@ const CVDetails = () => {
     return 'var(--error)';
   };
 
-  const handleSubmitAnswer = async () => {
-    if (!currentAnswer.trim() || isSubmitting) return;
-    
-    setIsSubmitting(true);
-    try {
-      const response = await interviewApi.submitAnswer(selectedQuestion.id, currentAnswer);
-      
-      const newAttempt = {
-        answer: currentAnswer,
-        score: response.score,
-        feedback: response.feedback,
-        suggested_answer: response.suggested_answer,
-        date: new Date().toLocaleString()
-      };
-
-      setHistory(prev => ({
-        ...prev,
-        [selectedQuestion.id]: [...(prev[selectedQuestion.id] || []), newAttempt]
-      }));
-      
-      setCurrentAnswer('');
-    } catch (err) {
-      alert(`Failed to submit answer: ${err.message}`);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <div className="cv-details-container">
       {/* Header Section */}
       <div className="cv-header">
         <div className="cv-title-section">
-          <h1><span className="cv-icon">📄</span> {cvData.name}</h1>
-          <p>Uploaded on {new Date(cvData.uploadDate).toLocaleDateString()} • CV ID: {id}</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ transform: 'scale(1.2)' }}>
+              <CVThumbnail cvId={id} />
+            </div>
+            <h1>{cvData.name}</h1>
+          </div>
+          <p>Uploaded on {new Date(cvData.uploadDate).toLocaleDateString()}</p>
         </div>
-        <div className="cv-actions">
+        <div className="cv-actions" style={{ display: 'flex', gap: '1rem' }}>
+          <button className="btn-primary" onClick={openPreviewModal}>
+            Preview CV
+          </button>
           <button className="btn-secondary" onClick={() => navigate('/cvs')}>
             Back to Overview
           </button>
@@ -234,14 +151,14 @@ const CVDetails = () => {
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                         {claim.questions.map((q) => {
                           const globalQIndex = cvData.claims.flatMap(c => c.questions).findIndex(quest => quest.id === q.id);
-                          const attempts = history[q.id] || [];
+                          const attempts = q.answers || [];
                           const lastScore = attempts.length > 0 ? attempts[attempts.length - 1].score : null;
 
                           return (
                             <div 
                               key={q.id} 
                               className="question-clickable"
-                              onClick={() => openQuestionModal(q, globalQIndex)}
+                              onClick={() => handleQuestionClick(q.id)}
                             >
                               <div style={{ color: 'var(--accent-secondary)', fontWeight: 'bold', minWidth: '24px' }}>
                                 Q{globalQIndex + 1}.
@@ -305,85 +222,46 @@ const CVDetails = () => {
         )}
       </div>
 
-      {/* Answer Modal */}
-      {selectedQuestion && (
-        <div className="modal-overlay" onClick={closeQuestionModal}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
+      {/* Modal removed */}
+
+      {/* CV Preview Modal */}
+      {showPreviewModal && (
+        <div className="modal-overlay" onClick={() => setShowPreviewModal(false)}>
+          <div className="modal-content" style={{ maxWidth: '900px', width: '90%', height: '85vh', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h2 style={{ margin: 0, color: 'var(--accent-primary)' }}>Q{selectedQuestion.displayIndex}</h2>
-              <button className="modal-close" onClick={closeQuestionModal} disabled={isSubmitting}>×</button>
+              <h2 style={{ margin: 0, color: 'var(--accent-primary)' }}>CV Preview</h2>
+              <button className="modal-close" onClick={() => setShowPreviewModal(false)}>×</button>
             </div>
-            
-            <div style={{ fontSize: '1.25rem', marginBottom: '24px', lineHeight: '1.5' }}>
-              {selectedQuestion.text}
-            </div>
-
-            {/* Previous Attempts History */}
-            {history[selectedQuestion.id] && history[selectedQuestion.id].length > 0 && (
-              <div style={{ marginBottom: '32px' }}>
-                <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '8px' }}>Previous Attempts</h3>
-                {history[selectedQuestion.id].map((attempt, idx) => (
-                  <div key={idx} className="history-item">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                      <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Attempt {idx + 1} • {attempt.date}</span>
-                      <span style={{ fontWeight: 'bold', color: getScoreColor(attempt.score) }}>Score: {attempt.score}/10</span>
-                    </div>
-                    <div style={{ marginBottom: '16px' }}>
-                      <strong>Your Answer:</strong>
-                      <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)' }}>{attempt.answer}</p>
-                    </div>
-                    {attempt.feedback && (
-                      <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '12px', borderRadius: '4px', borderLeft: '3px solid var(--success)', marginBottom: '12px' }}>
-                        <strong>Feedback:</strong>
-                        <p style={{ margin: '4px 0 0 0' }}>{attempt.feedback}</p>
-                      </div>
-                    )}
-                    {attempt.suggested_answer && (
-                      <div style={{ background: 'rgba(56, 189, 248, 0.1)', padding: '12px', borderRadius: '4px', borderLeft: '3px solid var(--accent-primary)' }}>
-                        <strong>Ideal Answer:</strong>
-                        <p style={{ margin: '4px 0 0 0' }}>{attempt.suggested_answer}</p>
-                      </div>
-                    )}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'rgba(0, 0, 0, 0.2)', borderRadius: 'var(--border-radius-md)', padding: '8px' }}>
+              {pdfUrl ? (
+                <iframe 
+                  src={pdfUrl} 
+                  title="CV PDF Preview"
+                  style={{ flex: 1, width: '100%', border: 'none', borderRadius: '4px', background: '#fff' }} 
+                />
+              ) : pdfError ? (
+                <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                  <p>Could not load the original PDF file.</p>
+                  <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>Showing extracted text fallback instead:</p>
+                  <div style={{
+                    whiteSpace: 'pre-wrap', 
+                    textAlign: 'left',
+                    marginTop: '1rem',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    padding: '1.5rem',
+                    borderRadius: '8px',
+                    maxHeight: '40vh',
+                    overflowY: 'auto'
+                  }}>
+                    {cvData.raw_text}
                   </div>
-                ))}
-              </div>
-            )}
-
-            {/* New Answer Input */}
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <h3 style={{ margin: 0 }}>Submit New Answer</h3>
-                <button 
-                  className={`btn-voice ${isRecording ? 'recording' : ''}`}
-                  onClick={toggleRecording}
-                  disabled={isSubmitting}
-                  title="Answer with Voice"
-                >
-                  {isRecording ? (
-                    <><span className="pulsing-dot"></span> Recording...</>
-                  ) : '🎤 Voice'}
-                </button>
-              </div>
-              <textarea 
-                className="answer-textarea" 
-                placeholder="Type your answer here or click Voice to speak..."
-                value={currentAnswer}
-                onChange={(e) => setCurrentAnswer(e.target.value)}
-                disabled={isSubmitting}
-              />
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                <button 
-                  className="btn-primary" 
-                  onClick={handleSubmitAnswer} 
-                  disabled={!currentAnswer.trim() || isSubmitting}
-                >
-                  {isSubmitting ? (
-                     <span>Grading with AI... <span className="spinner">⏳</span></span>
-                  ) : 'Submit Answer'}
-                </button>
-              </div>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', color: 'var(--text-secondary)' }}>
+                  Loading PDF...
+                </div>
+              )}
             </div>
-
           </div>
         </div>
       )}
