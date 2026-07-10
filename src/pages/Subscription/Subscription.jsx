@@ -53,7 +53,6 @@ const Subscription = () => {
 
       <div className="sub-status-card">
         <h3>Current Plan: <span>{subData.plan === 'free' ? 'Free Plan' : (subData.plan === 'paid_6m' ? 'Pro (6 Months)' : 'Elite (1 Year)')}</span></h3>
-        <p>CVs Used: <strong>{subData.cvs_parsed} / {subData.cvs_allowed}</strong></p>
         {subData.end_date && <p>Expires: {new Date(subData.end_date).toLocaleDateString()}</p>}
       </div>
 
