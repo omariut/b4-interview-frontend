@@ -155,3 +155,16 @@ export const interviewApi = {
 export const adminApi = {
   getCosts: () => fetchWithAuth('/admin/costs'),
 };
+
+export const subscriptionApi = {
+  getSubscription: () => fetchWithAuth('/subscription/'),
+  upgrade: (plan_id) => {
+    return fetchWithAuth('/subscription/upgrade', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ plan_id })
+    });
+  }
+};

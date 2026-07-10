@@ -1,0 +1,195 @@
+.sub-container {
+  padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.sub-header {
+  margin-bottom: 32px;
+}
+
+.sub-header h1 {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.sub-header p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.sub-status-card {
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.sub-status-card h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+}
+
+.sub-status-card h3 span {
+  color: var(--primary);
+}
+
+.sub-status-card p {
+  margin: 8px 0 0 0;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.sub-status-card p strong {
+  color: var(--text-primary);
+}
+
+.sub-plans-title {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.sub-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.sub-plan-card {
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sub-plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+.sub-plan-card.current {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sub-plan-card.popular {
+  border-color: var(--primary);
+  background: linear-gradient(180deg, rgba(74, 144, 226, 0.05) 0%, var(--surface) 100%);
+}
+
+.sub-plan-card.elite {
+  border-color: #f5a623;
+  background: linear-gradient(180deg, rgba(245, 166, 35, 0.05) 0%, var(--surface) 100%);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.plan-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.plan-price {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.plan-price span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  flex-grow: 1;
+}
+
+.plan-features li {
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.plan-features li::before {
+  content: "✓";
+  color: var(--success);
+  font-weight: bold;
+}
+
+.plan-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.plan-btn.current {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  cursor: default;
+}
+
+.plan-btn.upgrade {
+  background: var(--primary);
+  color: white;
+}
+
+.plan-btn.upgrade:hover:not(:disabled) {
+  background: #357abd;
+}
+
+.plan-btn:disabled {
+  opacity: 0.7;
+}
+
+.elite .plan-btn.upgrade {
+  background: #f5a623;
+  color: #000;
+}
+
+.elite .plan-btn.upgrade:hover:not(:disabled) {
+  background: #e09612;
+}
+
+@media (max-width: 768px) {
+  .sub-container {
+    padding: 16px;
+  }
+}

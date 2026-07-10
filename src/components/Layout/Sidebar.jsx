@@ -68,6 +68,14 @@ const Sidebar = () => {
             <span className="nav-icon">❓</span>
             Questions
           </NavLink>
+
+          <NavLink 
+            to="/subscription" 
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+          >
+            <span className="nav-icon">⭐</span>
+            Subscription
+          </NavLink>
         </div>
 
         <div className="sidebar-footer">

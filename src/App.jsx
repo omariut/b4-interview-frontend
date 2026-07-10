@@ -10,6 +10,7 @@ import CVList from './pages/CVList/CVList';
 import CVDetails from './pages/CVDetails/CVDetails';
 import QuestionsList from './pages/QuestionsList/QuestionsList';
 import QuestionDetails from './pages/QuestionDetails/QuestionDetails';
+import Subscription from './pages/Subscription/Subscription';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/cvs/:id" element={<CVDetails />} />
           <Route path="/questions" element={<QuestionsList />} />
           <Route path="/questions/:id" element={<QuestionDetails />} />
+          <Route path="/subscription" element={<Subscription />} />
         </Route>
 
       </Routes>
