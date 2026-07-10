@@ -22,7 +22,7 @@ const QuestionDetails = () => {
             <h4 style={{ color: 'var(--success)', margin: '0 0 8px 0', fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span>✅</span> What is Good
             </h4>
-            <p style={{ margin: 0, paddingLeft: '24px' }}>{feedback.what_is_good}</p>
+            <p style={{ margin: 0, paddingLeft: '24px' }}>{typeof feedback.what_is_good === 'object' ? JSON.stringify(feedback.what_is_good) : feedback.what_is_good}</p>
           </div>
         )}
 
@@ -31,7 +31,7 @@ const QuestionDetails = () => {
             <h4 style={{ color: 'var(--warning)', margin: '0 0 8px 0', fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span>📈</span> Areas for Growth
             </h4>
-            <p style={{ margin: 0, paddingLeft: '24px' }}>{feedback.areas_for_growth}</p>
+            <p style={{ margin: 0, paddingLeft: '24px' }}>{typeof feedback.areas_for_growth === 'object' ? JSON.stringify(feedback.areas_for_growth) : feedback.areas_for_growth}</p>
           </div>
         )}
 
@@ -41,7 +41,7 @@ const QuestionDetails = () => {
               <span>🎯</span> Scoring Details
             </h4>
             <div className="scoring-grid" style={{ background: 'rgba(0,0,0,0.2)', padding: '16px', borderRadius: '8px' }}>
-              <p style={{ margin: 0, fontStyle: 'italic' }}>{feedback.scoring_details}</p>
+              <p style={{ margin: 0, fontStyle: 'italic' }}>{typeof feedback.scoring_details === 'object' ? JSON.stringify(feedback.scoring_details) : feedback.scoring_details}</p>
             </div>
           </div>
         )}
@@ -336,8 +336,8 @@ const QuestionDetails = () => {
                   <div className="qd-ideal-block" style={{ marginTop: '0' }}>
                     <h4 style={{ margin: '0 0 8px 0', fontSize: '0.9rem', color: 'var(--primary)' }}>✨ AI Suggested Response:</h4>
                     <div style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
-                      <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)' }}>
-                        {questionData.answers.find(a => a.suggested_answer).suggested_answer}
+                      <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)', whiteSpace: 'pre-wrap' }}>
+                        {typeof questionData.answers.find(a => a.suggested_answer).suggested_answer === 'object' ? JSON.stringify(questionData.answers.find(a => a.suggested_answer).suggested_answer) : questionData.answers.find(a => a.suggested_answer).suggested_answer}
                       </p>
                     </div>
                   </div>
@@ -441,8 +441,10 @@ const QuestionDetails = () => {
 
               <div className="qd-ideal-block">
                 <h4 style={{ margin: '0 0 8px 0', color: 'var(--primary)' }}>✨ AI Suggested Response</h4>
-                <div style={{ maxHeight: '200px', overflowY: 'auto', paddingRight: '8px' }}>
-                  <p style={{ margin: 0 }}>{modalData.suggested_answer}</p>
+                <div className="qd-ideal-text">
+                  <p style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
+                    {typeof modalData.suggested_answer === 'object' ? JSON.stringify(modalData.suggested_answer) : modalData.suggested_answer}
+                  </p>
                 </div>
               </div>
             </div>
