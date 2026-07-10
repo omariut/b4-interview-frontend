@@ -5,12 +5,36 @@ import './QuestionDetails.css';
 
 const renderWithBold = (text) => {
   if (typeof text !== 'string') return text;
-  const parts = text.split(/(\*\*.*?\*\*)/g);
-  return parts.map((part, i) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i}>{part.slice(2, -2)}</strong>;
+  const lines = text.split('\n');
+  return lines.map((line, lineIndex) => {
+    let content;
+    const bulletMatch = line.match(/^(\s*-\s+)([^:]+)(:\s+)(.*)$/);
+    
+    if (bulletMatch && !line.includes('**')) {
+      content = (
+        <React.Fragment>
+          {bulletMatch[1]}
+          <strong>{bulletMatch[2]}:</strong>
+          {' '}
+          {bulletMatch[4]}
+        </React.Fragment>
+      );
+    } else {
+      const parts = line.split(/(\*\*.*?\*\*)/g);
+      content = parts.map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={i}>{part.slice(2, -2)}</strong>;
+        }
+        return part;
+      });
     }
-    return part;
+
+    return (
+      <React.Fragment key={lineIndex}>
+        {content}
+        {lineIndex < lines.length - 1 ? '\n' : null}
+      </React.Fragment>
+    );
   });
 };
 
