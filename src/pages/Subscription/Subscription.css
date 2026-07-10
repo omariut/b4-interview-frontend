@@ -1,195 +1,295 @@
 .sub-container {
-  padding: 24px;
-  max-width: 1000px;
+  padding: 40px 24px;
+  max-width: 1200px;
   margin: 0 auto;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #f0f0f0;
 }
 
 .sub-header {
-  margin-bottom: 32px;
+  text-align: center;
+  margin-bottom: 60px;
 }
 
 .sub-header h1 {
-  font-size: 2rem;
-  color: var(--text-primary);
-  margin: 0 0 8px 0;
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 16px 0;
+  letter-spacing: -1px;
 }
 
 .sub-header p {
-  color: var(--text-secondary);
-  font-size: 1.1rem;
+  color: #94a3b8;
+  font-size: 1.25rem;
   margin: 0;
+  font-weight: 400;
 }
 
+/* Status Card */
 .sub-status-card {
-  background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 40px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 60px;
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.sub-status-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
 }
 
 .sub-status-card h3 {
   margin: 0 0 16px 0;
-  font-size: 1.3rem;
-  color: var(--text-primary);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #e2e8f0;
 }
 
 .sub-status-card h3 span {
-  color: var(--primary);
+  background: linear-gradient(90deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  padding-left: 8px;
 }
 
 .sub-status-card p {
-  margin: 8px 0 0 0;
+  margin: 8px 0;
   font-size: 1.1rem;
-  color: var(--text-secondary);
+  color: #94a3b8;
 }
 
 .sub-status-card p strong {
-  color: var(--text-primary);
+  color: #f8fafc;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .sub-plans-title {
-  font-size: 1.5rem;
-  color: var(--text-primary);
-  margin-bottom: 24px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 40px;
 }
 
+/* Grid & Cards */
 .sub-plans-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+  padding-bottom: 40px;
 }
 
 .sub-plan-card {
-  background: var(--surface);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 32px 24px;
+  border-radius: 24px;
+  padding: 40px 32px;
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
 }
 
 .sub-plan-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  transform: translateY(-10px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.7);
 }
 
 .sub-plan-card.current {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
 }
 
+/* Pro Plan (Middle) */
 .sub-plan-card.popular {
-  border-color: var(--primary);
-  background: linear-gradient(180deg, rgba(74, 144, 226, 0.05) 0%, var(--surface) 100%);
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 20px 40px -20px rgba(59, 130, 246, 0.4);
 }
 
+.sub-plan-card.popular:hover {
+  border-color: rgba(59, 130, 246, 0.8);
+  box-shadow: 0 30px 60px -20px rgba(59, 130, 246, 0.6);
+}
+
+/* Elite Plan */
 .sub-plan-card.elite {
-  border-color: #f5a623;
-  background: linear-gradient(180deg, rgba(245, 166, 35, 0.05) 0%, var(--surface) 100%);
+  background: linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 20px 40px -20px rgba(168, 85, 247, 0.4);
 }
 
+.sub-plan-card.elite:hover {
+  border-color: rgba(168, 85, 247, 0.8);
+  box-shadow: 0 30px 60px -20px rgba(168, 85, 247, 0.6);
+}
+
+/* Badges */
 .popular-badge {
   position: absolute;
-  top: -12px;
+  top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--primary);
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
   color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.plan-name {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--text-secondary);
+  padding: 6px 16px;
+  border-radius: 24px;
+  font-size: 0.85rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 12px;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.5);
 }
 
-.plan-price {
-  font-size: 2.5rem;
+.elite .popular-badge {
+  background: linear-gradient(90deg, #a855f7, #7e22ce);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.5);
+}
+
+/* Plan Details */
+.plan-name {
+  font-size: 1.25rem;
   font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 24px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.popular .plan-name { color: #60a5fa; }
+.elite .plan-name { color: #c084fc; }
+
+.plan-price {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #f8fafc;
+  margin-bottom: 32px;
+  line-height: 1;
 }
 
 .plan-price span {
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--text-secondary);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-left: 4px;
 }
 
+/* Features List */
 .plan-features {
   list-style: none;
   padding: 0;
-  margin: 0 0 32px 0;
+  margin: 0 0 40px 0;
   flex-grow: 1;
 }
 
 .plan-features li {
-  margin-bottom: 16px;
-  color: var(--text-primary);
+  margin-bottom: 20px;
+  color: #e2e8f0;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  font-size: 1.05rem;
 }
 
 .plan-features li::before {
   content: "✓";
-  color: var(--success);
-  font-weight: bold;
+  color: #10b981;
+  font-weight: 900;
+  font-size: 1.2rem;
+  background: rgba(16, 185, 129, 0.1);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 
+/* Buttons */
 .plan-btn {
   width: 100%;
-  padding: 14px;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 1.15rem;
+  font-weight: 700;
   cursor: pointer;
   border: none;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .plan-btn.current {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-secondary);
-  cursor: default;
+  background: rgba(255, 255, 255, 0.05);
+  color: #64748b;
+  cursor: not-allowed;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .plan-btn.upgrade {
-  background: var(--primary);
-  color: white;
+  background: white;
+  color: #0f172a;
 }
 
 .plan-btn.upgrade:hover:not(:disabled) {
-  background: #357abd;
+  background: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
 }
 
-.plan-btn:disabled {
-  opacity: 0.7;
+.popular .plan-btn.upgrade {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+.popular .plan-btn.upgrade:hover:not(:disabled) {
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
 }
 
 .elite .plan-btn.upgrade {
-  background: #f5a623;
-  color: #000;
+  background: linear-gradient(90deg, #a855f7, #7e22ce);
+  color: white;
 }
 
 .elite .plan-btn.upgrade:hover:not(:disabled) {
-  background: #e09612;
+  box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
+}
+
+.plan-btn:disabled {
+  opacity: 0.6;
 }
 
 @media (max-width: 768px) {
   .sub-container {
-    padding: 16px;
+    padding: 24px 16px;
+  }
+  
+  .sub-header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .sub-plans-grid {
+    grid-template-columns: 1fr;
   }
 }
