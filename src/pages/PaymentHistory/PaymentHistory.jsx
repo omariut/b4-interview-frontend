@@ -46,7 +46,15 @@ const PaymentHistory = () => {
                   Requested on: {new Date(payment.created_at).toLocaleDateString()}
                 </p>
               </div>
-              <div className="history-card-right">
+              <div className="history-card-right" style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
+                <a 
+                  href={`${import.meta.env.VITE_API_BASE_URL}/subscription/voucher/${payment.id}?token=${localStorage.getItem('access_token')}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="view-voucher-link"
+                >
+                  View Receipt ↗
+                </a>
                 <span className={`status-badge status-${payment.status.toLowerCase()}`}>
                   {payment.status.toUpperCase()}
                 </span>
