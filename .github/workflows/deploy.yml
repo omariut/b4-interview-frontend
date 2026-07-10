@@ -1,4 +1,4 @@
-name: Deploy Frontend to amaltracker
+name: Deploy Frontend to host
 
 on:
   push:
