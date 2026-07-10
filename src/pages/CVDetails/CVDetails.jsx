@@ -129,59 +129,58 @@ const CVDetails = () => {
           </div>
         </div>
         
-        <div className="table-container" style={{ border: 'none', boxShadow: 'none', borderRadius: 0 }}>
+        <div className="claims-list-container">
           {totalClaims > 0 ? (
-            <table className="cv-table">
-              <thead>
-                <tr>
-                  <th style={{ width: '40%' }}>Claim</th>
-                  <th>Questions (Click to Answer)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentClaims.map((claim) => (
-                  <tr key={claim.id} style={{ verticalAlign: 'top', cursor: 'default' }}>
-                    <td style={{ fontWeight: '500' }}>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <span className="claim-icon">✨</span>
-                        <span>{claim.text}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        {claim.questions.map((q) => {
-                          const globalQIndex = cvData.claims.flatMap(c => c.questions).findIndex(quest => quest.id === q.id);
-                          const attempts = q.answers || [];
-                          const lastScore = attempts.length > 0 ? attempts[attempts.length - 1].score : null;
+            <div className="claims-stack">
+              {currentClaims.map((claim) => (
+                <div key={claim.id} className="claim-card-clean">
+                  <div className="claim-card-header">
+                    <span className="claim-icon" style={{ fontSize: '1.2rem' }}>✨</span>
+                    <h3 style={{ margin: 0, fontWeight: '500', fontSize: '1.15rem', lineHeight: '1.5', color: 'var(--text-primary)' }}>
+                      {claim.text}
+                    </h3>
+                  </div>
+                  
+                  <div className="claim-questions-list">
+                    {claim.questions.map((q) => {
+                      const globalQIndex = cvData.claims.flatMap(c => c.questions).findIndex(quest => quest.id === q.id);
+                      const attempts = q.answers || [];
+                      const lastScore = attempts.length > 0 ? attempts[attempts.length - 1].score : null;
 
-                          return (
-                            <div 
-                              key={q.id} 
-                              className="question-clickable"
-                              onClick={() => handleQuestionClick(q.id)}
-                            >
-                              <div style={{ color: 'var(--accent-secondary)', fontWeight: 'bold', minWidth: '24px' }}>
-                                Q{globalQIndex + 1}.
-                              </div>
-                              <div style={{ flex: 1 }}>
-                                <div style={{ color: 'var(--text-primary)', lineHeight: '1.5' }}>
-                                  {q.text}
-                                </div>
-                                {attempts.length > 0 && (
-                                  <div style={{ marginTop: '8px', fontSize: '0.875rem', color: getScoreColor(lastScore), fontWeight: '600' }}>
-                                    ✓ Answered ({attempts.length} attempts) - Last Score: {lastScore}/10
-                                  </div>
-                                )}
-                              </div>
+                      return (
+                        <div 
+                          key={q.id} 
+                          className="question-item-clean"
+                          onClick={() => handleQuestionClick(q.id)}
+                        >
+                          <div className="question-number-clean">
+                            Q{globalQIndex + 1}
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ color: 'var(--text-primary)', lineHeight: '1.6', fontSize: '1rem' }}>
+                              {q.text}
                             </div>
-                          )
-                        })}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                            {attempts.length > 0 && (
+                              <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem' }}>
+                                <span style={{ background: 'rgba(16, 185, 129, 0.1)', color: 'var(--success)', padding: '2px 8px', borderRadius: '12px', fontWeight: '500' }}>
+                                  ✓ Answered ({attempts.length})
+                                </span>
+                                <span style={{ color: getScoreColor(lastScore), fontWeight: '600' }}>
+                                  Score: {lastScore}/10
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="question-arrow-clean">
+                            →
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : (
             <div style={{ padding: '48px', textAlign: 'center', color: 'var(--text-secondary)' }}>
               No claims extracted from this CV.
