@@ -149,6 +149,15 @@ export const interviewApi = {
       },
       body: JSON.stringify({ feedback_rating })
     });
+  },
+  reportAnswer: (answerId, report_text) => {
+    return fetchWithAuth(`/interview/answers/${answerId}/report`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ report_text })
+    });
   }
 };
 

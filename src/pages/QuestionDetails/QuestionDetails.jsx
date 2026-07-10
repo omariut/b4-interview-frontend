@@ -89,6 +89,12 @@ const QuestionDetails = () => {
   const [modalData, setModalData] = useState(null);
   const [isIdealAnswerOpen, setIsIdealAnswerOpen] = useState(window.innerWidth >= 900);
   
+  // Report Modal State
+  const [reportModalData, setReportModalData] = useState(null); // { answerId: number }
+  const [reportText, setReportText] = useState('');
+  const [isSubmittingReport, setIsSubmittingReport] = useState(false);
+  const [reportSuccess, setReportSuccess] = useState('');
+  
   // Voice Transcription State
   const [isRecording, setIsRecording] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -204,6 +210,24 @@ const QuestionDetails = () => {
   };
 
   const isLimitReached = questionData?.answers?.length >= 3;
+
+  const handleReportSubmit = async () => {
+    if (!reportText.trim() || !reportModalData) return;
+    setIsSubmittingReport(true);
+    try {
+      await interviewApi.reportAnswer(reportModalData.answerId, reportText);
+      setReportSuccess('Thank you. Your report has been submitted.');
+      setTimeout(() => {
+        setReportModalData(null);
+        setReportText('');
+        setReportSuccess('');
+      }, 2500);
+    } catch (err) {
+      alert(err.message || 'Failed to submit report');
+    } finally {
+      setIsSubmittingReport(false);
+    }
+  };
 
   // Cleanup recording on unmount
   useEffect(() => {
@@ -438,6 +462,14 @@ const QuestionDetails = () => {
                         ) : (
                           <span style={{ color: 'var(--text-secondary)' }}>No feedback</span>
                         )}
+                        <div style={{ marginTop: '12px', textAlign: 'right' }}>
+                          <button 
+                            className="btn-report" 
+                            onClick={() => setReportModalData({ answerId: attempt.id })}
+                          >
+                            <span style={{marginRight: '4px'}}>🚩</span> Report Issue
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -487,6 +519,60 @@ const QuestionDetails = () => {
             <div className="qd-modal-footer">
               <button className="btn-primary" onClick={() => setModalData(null)}>Close</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Report Modal */}
+      {reportModalData && (
+        <div className="qd-modal-overlay" onClick={() => !isSubmittingReport && setReportModalData(null)}>
+          <div className="qd-modal-content report-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="qd-modal-header">
+              <h2>Report Issue</h2>
+              <button className="qd-modal-close" onClick={() => !isSubmittingReport && setReportModalData(null)}>×</button>
+            </div>
+            
+            <div className="qd-modal-body">
+              {reportSuccess ? (
+                <div style={{ padding: '24px', textAlign: 'center', color: 'var(--success)' }}>
+                  <span style={{ fontSize: '2rem', display: 'block', marginBottom: '8px' }}>✅</span>
+                  {reportSuccess}
+                </div>
+              ) : (
+                <>
+                  <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>
+                    Please let us know what went wrong with the AI's grading, feedback, or suggested answer.
+                  </p>
+                  <textarea 
+                    className="qd-textarea" 
+                    placeholder="E.g., The score is unfairly low, or the feedback missed my point about React hooks..."
+                    value={reportText}
+                    onChange={(e) => setReportText(e.target.value)}
+                    rows={4}
+                    disabled={isSubmittingReport}
+                  />
+                </>
+              )}
+            </div>
+            
+            {!reportSuccess && (
+              <div className="qd-modal-footer" style={{ justifyContent: 'space-between' }}>
+                <button 
+                  className="btn-secondary" 
+                  onClick={() => setReportModalData(null)}
+                  disabled={isSubmittingReport}
+                >
+                  Cancel
+                </button>
+                <button 
+                  className="btn-primary" 
+                  onClick={handleReportSubmit}
+                  disabled={!reportText.trim() || isSubmittingReport}
+                >
+                  {isSubmittingReport ? 'Submitting...' : 'Submit Report'}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}

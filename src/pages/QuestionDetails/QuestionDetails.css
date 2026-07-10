@@ -480,3 +480,17 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 }
+
+.btn-report {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 4px 8px;
+}
+
+.btn-report:hover {
+  color: var(--warning);
+}
