@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { cvApi } from '../../services/api';
+import { cvApi, subscriptionApi } from '../../services/api';
 import './CVUpload.css';
 
 const CVUpload = () => {
@@ -9,23 +9,23 @@ const CVUpload = () => {
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [progressMessage, setProgressMessage] = useState('');
-  const [cvCount, setCvCount] = useState(0);
+  const [subData, setSubData] = useState(null);
   const [loadingCount, setLoadingCount] = useState(true);
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCVCount = async () => {
+    const fetchSubData = async () => {
       try {
-        const data = await cvApi.getAll();
-        setCvCount(data.length);
+        const data = await subscriptionApi.getSubscription();
+        setSubData(data);
       } catch (err) {
-        console.error("Failed to fetch CVs", err);
+        console.error("Failed to fetch subscription", err);
       } finally {
         setLoadingCount(false);
       }
     };
-    fetchCVCount();
+    fetchSubData();
   }, []);
 
   useEffect(() => {
@@ -112,17 +112,26 @@ const CVUpload = () => {
       <div className="cv-upload-header">
         <h1>Upload CV</h1>
         <p>Upload your resume to extract claims and generate interview questions.</p>
-        <p style={{ color: 'var(--accent-primary)', fontWeight: '500', fontSize: '0.9rem', marginTop: '4px' }}>Note: You can upload a maximum of 3 CVs per account.</p>
+        {subData && (
+          <p style={{ color: 'var(--accent-primary)', fontWeight: '500', fontSize: '0.9rem', marginTop: '4px' }}>
+            Note: You have used {subData.cvs_parsed} out of {subData.cvs_allowed} CVs on your current plan.
+          </p>
+        )}
       </div>
 
       {loadingCount ? (
         <div style={{ padding: '48px', textAlign: 'center', color: 'var(--text-secondary)' }}>
           Checking upload permissions...
         </div>
-      ) : cvCount >= 3 ? (
+      ) : subData && subData.cvs_parsed >= subData.cvs_allowed ? (
         <div className="upload-status error" style={{ background: 'rgba(239, 68, 68, 0.1)', color: 'var(--error)', padding: '24px', borderRadius: '8px', textAlign: 'center', marginTop: '24px', border: '1px solid var(--error)' }}>
           <div style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '8px' }}>🚫 Upload Limit Reached</div>
-          <div>You have reached the maximum limit of 3 uploaded CVs.</div>
+          <div>You have reached your limit of {subData.cvs_allowed} CVs for your {subData.plan} plan.<br/>Please go to the Subscription page to upgrade.</div>
+        </div>
+      ) : subData && subData.end_date && new Date(subData.end_date) < new Date() ? (
+        <div className="upload-status error" style={{ background: 'rgba(239, 68, 68, 0.1)', color: 'var(--error)', padding: '24px', borderRadius: '8px', textAlign: 'center', marginTop: '24px', border: '1px solid var(--error)' }}>
+          <div style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '8px' }}>🚫 Subscription Expired</div>
+          <div>Your subscription expired on {new Date(subData.end_date).toLocaleDateString()}.<br/>Please go to the Subscription page to renew.</div>
         </div>
       ) : (
         uploadStatus !== 'uploading' && uploadStatus !== 'success' && (
