@@ -158,6 +158,7 @@ export const adminApi = {
 
 export const subscriptionApi = {
   getSubscription: () => fetchWithAuth('/subscription/'),
+  getPaymentHistory: () => fetchWithAuth('/subscription/history'),
   uploadVoucher: async (plan_id, file) => {
     const formData = new FormData();
     formData.append('plan_id', plan_id);

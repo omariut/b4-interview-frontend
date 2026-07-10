@@ -76,6 +76,14 @@ const Sidebar = () => {
             <span className="nav-icon">⭐</span>
             Subscription
           </NavLink>
+
+          <NavLink 
+            to="/payment-history" 
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+          >
+            <span className="nav-icon">💳</span>
+            Payment History
+          </NavLink>
         </div>
 
         <div className="sidebar-footer">
