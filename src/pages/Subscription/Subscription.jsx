@@ -80,7 +80,7 @@ const Subscription = () => {
         <div className={`sub-plan-card ${is6m ? 'current' : ''} popular`}>
           <div className="popular-badge">Most Popular</div>
           <div className="plan-name">Pro</div>
-          <div className="plan-price">500 tk <span>/ 6 mo</span></div>
+          <div className="plan-price">499 tk <span>/ 6 mo</span></div>
           <ul className="plan-features">
             <li>6 Months Access</li>
             <li>3 CV Analyses</li>
@@ -102,7 +102,7 @@ const Subscription = () => {
         {/* 1 Year Plan */}
         <div className={`sub-plan-card ${is1y ? 'current' : ''} elite`}>
           <div className="plan-name">Elite</div>
-          <div className="plan-price">1000 tk <span>/ 1 yr</span></div>
+          <div className="plan-price">999 tk <span>/ 1 yr</span></div>
           <ul className="plan-features">
             <li>1 Year Access</li>
             <li>10 CV Analyses</li>
