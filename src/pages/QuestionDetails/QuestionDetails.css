@@ -229,6 +229,7 @@
   color: var(--text-primary);
   margin-top: 8px;
   line-height: 1.5;
+  text-align: justify;
 }
 
 .qd-feedback-text {
@@ -239,6 +240,8 @@
   border-radius: 4px;
   border-left: 2px solid var(--success);
   line-height: 1.5;
+  margin-top: 8px;
+  text-align: justify;
 }
 
 /* Explicit Disabled States */
@@ -282,6 +285,39 @@
 /* --- Responsive Feedback Toggle --- */
 .qd-feedback-desktop { display: block; }
 .qd-feedback-mobile { display: none; }
+
+.qd-feedback-text {
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  text-align: justify;
+}
+
+/* Markdown Rendering Styles */
+.qd-feedback-text h3 {
+  margin: 1.5rem 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--accent-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 4px;
+}
+
+.qd-feedback-text h3:first-child {
+  margin-top: 0;
+}
+
+.qd-feedback-text p {
+  margin: 0 0 1rem 0;
+}
+
+.qd-feedback-text ul {
+  margin: 0 0 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.qd-feedback-text li {
+  margin-bottom: 0.25rem;
+}
 
 .qd-feedback-summary {
   cursor: pointer;

@@ -11,6 +11,44 @@ const QuestionDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // Structured Feedback Component
+  const StructuredFeedback = ({ feedback }) => {
+    if (!feedback || typeof feedback !== 'object') return null;
+
+    return (
+      <div className="structured-feedback">
+        {feedback.what_is_good && (
+          <div className="feedback-section">
+            <h4 style={{ color: 'var(--success)', margin: '0 0 8px 0', fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>✅</span> What is Good
+            </h4>
+            <p style={{ margin: 0, paddingLeft: '24px' }}>{feedback.what_is_good}</p>
+          </div>
+        )}
+
+        {feedback.areas_for_growth && (
+          <div className="feedback-section" style={{ marginTop: '24px' }}>
+            <h4 style={{ color: 'var(--warning)', margin: '0 0 8px 0', fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>📈</span> Areas for Growth
+            </h4>
+            <p style={{ margin: 0, paddingLeft: '24px' }}>{feedback.areas_for_growth}</p>
+          </div>
+        )}
+
+        {feedback.scoring_details && (
+          <div className="feedback-section" style={{ marginTop: '24px' }}>
+            <h4 style={{ color: 'var(--accent-primary)', margin: '0 0 12px 0', fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>🎯</span> Scoring Details
+            </h4>
+            <div className="scoring-grid" style={{ background: 'rgba(0,0,0,0.2)', padding: '16px', borderRadius: '8px' }}>
+              <p style={{ margin: 0, fontStyle: 'italic' }}>{feedback.scoring_details}</p>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const [currentAnswer, setCurrentAnswer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalData, setModalData] = useState(null);
@@ -343,18 +381,22 @@ const QuestionDetails = () => {
                         </div>
                         <div className="qd-history-text">{attempt.answer}</div>
                       </td>
-                      <td className="qd-history-feedback-cell">
+                        <td className="qd-history-feedback-cell">
                         {attempt.feedback ? (
                           <>
                             <div className="qd-feedback-desktop">
-                              <div className="qd-feedback-text">{attempt.feedback}</div>
+                              <div className="qd-feedback-text">
+                                <StructuredFeedback feedback={attempt.feedback} />
+                              </div>
                             </div>
                             <div className="qd-feedback-mobile">
                               <details className="qd-feedback-details">
                                 <summary className="qd-feedback-summary">
                                   <span>ℹ️</span> View AI Feedback
                                 </summary>
-                                <div className="qd-feedback-text" style={{ marginTop: '12px' }}>{attempt.feedback}</div>
+                                <div className="qd-feedback-text" style={{ marginTop: '12px' }}>
+                                  <StructuredFeedback feedback={attempt.feedback} />
+                                </div>
                               </details>
                             </div>
                           </>
@@ -392,14 +434,15 @@ const QuestionDetails = () => {
               </div>
               
               <div className="qd-feedback-block" style={{ marginBottom: '24px' }}>
-                <h4 style={{ margin: '0 0 8px 0' }}>AI Feedback</h4>
-                <p>{modalData.feedback}</p>
+                <div className="qd-feedback-text">
+                  <StructuredFeedback feedback={modalData.feedback} />
+                </div>
               </div>
 
               <div className="qd-ideal-block">
                 <h4 style={{ margin: '0 0 8px 0', color: 'var(--primary)' }}>✨ AI Suggested Response</h4>
                 <div style={{ maxHeight: '200px', overflowY: 'auto', paddingRight: '8px' }}>
-                  <p>{modalData.suggested_answer}</p>
+                  <p style={{ margin: 0 }}>{modalData.suggested_answer}</p>
                 </div>
               </div>
             </div>
