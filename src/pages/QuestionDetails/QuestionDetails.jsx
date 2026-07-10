@@ -3,6 +3,17 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { interviewApi } from '../../services/api';
 import './QuestionDetails.css';
 
+const renderWithBold = (text) => {
+  if (typeof text !== 'string') return text;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+};
+
 const QuestionDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -337,7 +348,7 @@ const QuestionDetails = () => {
                     <h4 style={{ margin: '0 0 8px 0', fontSize: '0.9rem', color: 'var(--primary)' }}>✨ AI Suggested Response:</h4>
                     <div style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
                       <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)', whiteSpace: 'pre-wrap' }}>
-                        {typeof questionData.answers.find(a => a.suggested_answer).suggested_answer === 'object' ? JSON.stringify(questionData.answers.find(a => a.suggested_answer).suggested_answer) : questionData.answers.find(a => a.suggested_answer).suggested_answer}
+                        {renderWithBold(typeof questionData.answers.find(a => a.suggested_answer).suggested_answer === 'object' ? JSON.stringify(questionData.answers.find(a => a.suggested_answer).suggested_answer) : questionData.answers.find(a => a.suggested_answer).suggested_answer)}
                       </p>
                     </div>
                   </div>
@@ -443,7 +454,7 @@ const QuestionDetails = () => {
                 <h4 style={{ margin: '0 0 8px 0', color: 'var(--primary)' }}>✨ AI Suggested Response</h4>
                 <div className="qd-ideal-text">
                   <p style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
-                    {typeof modalData.suggested_answer === 'object' ? JSON.stringify(modalData.suggested_answer) : modalData.suggested_answer}
+                    {renderWithBold(typeof modalData.suggested_answer === 'object' ? JSON.stringify(modalData.suggested_answer) : modalData.suggested_answer)}
                   </p>
                 </div>
               </div>
