@@ -158,13 +158,13 @@ export const adminApi = {
 
 export const subscriptionApi = {
   getSubscription: () => fetchWithAuth('/subscription/'),
-  upgrade: (plan_id) => {
-    return fetchWithAuth('/subscription/upgrade', {
+  uploadVoucher: async (plan_id, file) => {
+    const formData = new FormData();
+    formData.append('plan_id', plan_id);
+    formData.append('file', file);
+    return fetchWithAuth('/subscription/upload-voucher', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ plan_id })
+      body: formData
     });
   }
 };
