@@ -90,18 +90,20 @@ const Subscription = () => {
           
           <div className="bank-details-card">
             <h3>Bank Details</h3>
-            <p>Please transfer the exact amount to the following account:</p>
+            <p style={{marginBottom: "8px"}}>Please transfer the exact amount to the following bank account:</p>
             <ul>
-              <li><strong>Bank Name:</strong> Dutch-Bangla Bank Ltd. (DBBL)</li>
-              <li><strong>Account Name:</strong> b4interview Technologies</li>
-              <li><strong>Account Number:</strong> 123-456-7890123</li>
-              <li><strong>bKash / Nagad:</strong> 01712345678 (Personal)</li>
+              <li><strong>Bank Name:</strong> Eastern Bank Ltd. (EBL)</li>
+              <li><strong>Account Name:</strong> Md Omar Faruk</li>
+              <li><strong>Account Number:</strong> 1071260000515</li>
+              <li><strong>Branch Name:</strong> Mirpur Branch (000107)</li>
             </ul>
           </div>
 
           <form className="voucher-form" onSubmit={handleCheckoutSubmit}>
             <h3>Upload Payment Voucher</h3>
-            <p>After transferring the money, please take a screenshot of the successful transaction and upload it below.</p>
+            <p style={{fontSize: "0.95rem", lineHeight: "1.5"}}>
+              <strong>Important Instruction:</strong> After making the transfer via your bank's app, internet banking, or branch deposit, please take a clear screenshot or photo of the successful transaction receipt. Upload that image here so our admin team can verify your payment and instantly activate your plan.
+            </p>
             
             <input 
               type="file" 
