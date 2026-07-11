@@ -92,7 +92,7 @@ const Profile = () => {
   }
 
   // We need to use import.meta.env to build the correct API url for images
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8050';
   const avatarUrl = user?.profile_picture_url 
     ? (user.profile_picture_url.startsWith('http') ? user.profile_picture_url : `${API_BASE_URL}${user.profile_picture_url}`)
     : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.full_name || 'User')}&background=38bdf8&color=fff&rounded=true&bold=true&size=128`;

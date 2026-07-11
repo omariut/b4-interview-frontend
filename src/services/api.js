@@ -2,7 +2,7 @@
 // We are now loading our base URL from the .env file!
 // This makes switching between local development and production super easy.
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8050';
 
 // Helper function to get auth headers
 const getAuthHeaders = () => {
