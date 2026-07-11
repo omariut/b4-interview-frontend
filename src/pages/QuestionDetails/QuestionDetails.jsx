@@ -20,10 +20,12 @@ const renderWithBold = (text) => {
         </React.Fragment>
       );
     } else {
-      const parts = line.split(/(\*\*.*?\*\*)/g);
+      const parts = line.split(/(\*\*.*?\*\*|\*.*?\*)/g);
       content = parts.map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) {
           return <strong key={i}>{part.slice(2, -2)}</strong>;
+        } else if (part.startsWith('*') && part.endsWith('*')) {
+          return <em key={i}>{part.slice(1, -1)}</em>;
         }
         return part;
       });

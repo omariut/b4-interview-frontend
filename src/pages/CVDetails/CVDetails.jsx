@@ -107,7 +107,27 @@ const CVDetails = () => {
             </div>
             <h1>{cvData.name}</h1>
           </div>
+
           <p style={{marginTop:'10px'}}>Uploaded on {new Date(cvData.uploadDate).toLocaleDateString()}</p>
+
+          <p>Uploaded on {new Date(cvData.uploadDate).toLocaleDateString()}</p>
+          
+          {cvData.experience_level && (
+            <div style={{ marginTop: '12px', background: 'rgba(255,255,255,0.05)', padding: '12px 16px', borderRadius: '8px', borderLeft: '4px solid var(--accent-primary)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                <strong style={{ color: 'var(--text-primary)' }}>Experience Level:</strong> 
+                <span style={{ textTransform: 'capitalize', color: 'var(--accent-primary)', fontWeight: '600' }}>
+                  {cvData.experience_level}
+                </span>
+                <span style={{ color: 'var(--text-secondary)' }}>
+                  (~{cvData.detected_years} years)
+                </span>
+              </div>
+              <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+                {cvData.detection_reasoning}
+              </p>
+            </div>
+          )}
         </div>
         <div className="cv-actions" style={{ display: 'flex', gap: '1rem' }}>
           <button className="btn-primary" onClick={openPreviewModal}>

@@ -81,6 +81,7 @@ const CVList = () => {
               <tr>
                 <th>CV Name</th>
                 <th>Upload Date</th>
+                <th>Experience</th>
                 <th>Claims</th>
                 <th>Questions</th>
                 <th>Actions</th>
@@ -96,6 +97,15 @@ const CVList = () => {
                     </div>
                   </td>
                   <td>{new Date(cv.dateUploaded).toLocaleDateString()}</td>
+                  <td>
+                    {cv.experience_level ? (
+                      <span style={{ textTransform: 'capitalize', color: 'var(--accent-primary)', fontWeight: '500' }}>
+                        {cv.experience_level}
+                      </span>
+                    ) : (
+                      <span style={{ color: 'var(--text-secondary)' }}>Unknown</span>
+                    )}
+                  </td>
                   <td><span className="badge">{cv.totalClaims}</span></td>
                   <td><span className="badge">{cv.totalQuestions}</span></td>
                   <td>

@@ -2,7 +2,7 @@
 // We are now loading our base URL from the .env file!
 // This makes switching between local development and production super easy.
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8050';
 
 // Helper function to get auth headers
 const getAuthHeaders = () => {
@@ -58,19 +58,44 @@ export const authApi = {
 
   // Get current user details
   getMe: async () => {
-    const token = localStorage.getItem('access_token');
-    const response = await fetch(`${API_BASE_URL}/auth/me`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    return fetchWithAuth('/auth/me');
+  },
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch user details');
-    }
+  updateProfile: async (data) => {
+    return fetchWithAuth('/auth/me', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+  },
+
+  uploadProfilePicture: async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
     
-    return await response.json();
+    // Using fetch directly because fetchWithAuth sets default Content-Type sometimes if we're not careful,
+    // though here we just need to ensure we don't set Content-Type manually so the browser sets the boundary.
+    const response = await fetch(`${API_BASE_URL}/auth/profile-picture`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: formData
+    });
+    
+    const responseData = await response.json().catch(() => null);
+    if (!response.ok) throw new Error(responseData?.detail || 'Failed to upload image');
+    return responseData;
+  },
+
+  deleteProfilePicture: async () => {
+    const response = await fetch(`${API_BASE_URL}/auth/profile-picture`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    const responseData = await response.json().catch(() => null);
+    if (!response.ok) throw new Error(responseData?.detail || 'Failed to delete profile picture');
+    return responseData;
   },
 
   // Register API call

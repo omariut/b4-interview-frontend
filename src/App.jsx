@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Sidebar from './components/Layout/Sidebar';
 
 // New Pages
 import Dashboard from './pages/Dashboard/Dashboard';
+import Profile from './pages/Profile/Profile';
 import CVUpload from './pages/CVUpload/CVUpload';
 import CVList from './pages/CVList/CVList';
 import CVDetails from './pages/CVDetails/CVDetails';
@@ -14,6 +15,19 @@ import Subscription from './pages/Subscription/Subscription';
 import PaymentHistory from './pages/PaymentHistory/PaymentHistory';
 
 function App() {
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -21,9 +35,10 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {/* Protected/Main App Routes wrapped in Sidebar Layout */}
-        <Route element={<Sidebar />}>
+        <Route element={<Sidebar theme={theme} toggleTheme={toggleTheme} />}>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/upload-cv" element={<CVUpload />} />
           <Route path="/cvs" element={<CVList />} />
           <Route path="/cvs/:id" element={<CVDetails />} />
