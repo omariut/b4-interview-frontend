@@ -201,6 +201,7 @@ const QuestionDetails = () => {
 
       setQuestionData(prev => ({
         ...prev,
+        ideal_answer: prev.ideal_answer || response.suggested_answer,
         answers: [...prev.answers, newAttempt]
       }));
       
