@@ -310,6 +310,8 @@
     right: 16px;
     z-index: 50;
     display: flex;
+    width: auto;
+    justify-content: flex-end;
   }
 
   .profile-dropdown {
