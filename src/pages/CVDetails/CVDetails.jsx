@@ -107,6 +107,9 @@ const CVDetails = () => {
             </div>
             <h1>{cvData.name}</h1>
           </div>
+
+          <p style={{marginTop:'10px'}}>Uploaded on {new Date(cvData.uploadDate).toLocaleDateString()}</p>
+
           <p>Uploaded on {new Date(cvData.uploadDate).toLocaleDateString()}</p>
           
           {cvData.experience_level && (
@@ -153,7 +156,7 @@ const CVDetails = () => {
                 <div key={claim.id} className="claim-card-clean">
                   <div className="claim-card-header">
                     <span className="claim-icon" style={{ fontSize: '1.2rem' }}>✨</span>
-                    <h3 style={{ margin: 0, fontWeight: '500', fontSize: '1.15rem', lineHeight: '1.5', color: 'var(--text-primary)' }}>
+                    <h3 style={{ margin: 0, fontWeight: '500', fontSize: '1.15rem', lineHeight: '1.5', color: 'var(--text-primary)',textAlign:'start' }}>
                       {claim.text}
                     </h3>
                   </div>
@@ -171,10 +174,10 @@ const CVDetails = () => {
                           onClick={() => handleQuestionClick(q.id)}
                         >
                           <div className="question-number-clean">
-                            Q{globalQIndex + 1}
+                            {globalQIndex + 1}
                           </div>
                           <div style={{ flex: 1 }}>
-                            <div style={{ color: 'var(--text-primary)', lineHeight: '1.6', fontSize: '1rem' }}>
+                            <div style={{ color: 'var(--text-primary)', lineHeight: '1.6', fontSize: '1rem' ,textAlign:'start' }}>
                               {q.text}
                             </div>
                             {attempts.length > 0 && (
@@ -188,9 +191,7 @@ const CVDetails = () => {
                               </div>
                             )}
                           </div>
-                          <div className="question-arrow-clean">
-                            →
-                          </div>
+                          
                         </div>
                       )
                     })}
