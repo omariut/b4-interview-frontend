@@ -53,8 +53,17 @@ const Login = () => {
       </button>
 
       <div className="login-glass-card">
-        <h2 className="login-title">Welcome Back</h2>
-        <p className="login-subtitle">Sign in to your account to continue.</p>
+        <div className="brand-header" style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <h1 className="brand-title" style={{ fontSize: '2.5rem', margin: '0 0 8px 0', background: 'var(--accent-gradient)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: '800' }}>
+            b4interview
+          </h1>
+          <h2 className="brand-tagline" style={{ fontSize: '1.2rem', margin: '0 0 16px 0', color: 'var(--text-primary)', fontWeight: '600' }}>
+            Land Your Dream Job with AI
+          </h2>
+          <p className="brand-slogan" style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+            Upload your CV. Get grilled by our AI recruiter.<br/>Walk into your real interview with unbreakable confidence.
+          </p>
+        </div>
         
         {error && <div className="login-error">{error}</div>}
         {successMessage && <div className="login-success">{successMessage}</div>}
