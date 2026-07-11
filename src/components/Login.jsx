@@ -8,6 +8,14 @@ const Login = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+  
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
   
   const navigate = useNavigate();
 
@@ -37,6 +45,13 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <button 
+        onClick={toggleTheme} 
+        style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '8px 12px', borderRadius: '8px', cursor: 'pointer', zIndex: 10 }}
+      >
+        {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
+      </button>
+
       <div className="login-glass-card">
         <h2 className="login-title">Welcome Back</h2>
         <p className="login-subtitle">Sign in to your account to continue.</p>
