@@ -507,6 +507,17 @@ const QuestionDetails = () => {
                   <StructuredFeedback feedback={modalData.feedback} />
                 </div>
               </div>
+
+              {modalData.suggested_answer && (
+                <div className="qd-ideal-block">
+                  <h4 style={{ margin: '0 0 8px 0', color: 'var(--primary)' }}>✨ AI Ideal Answer</h4>
+                  <div className="qd-ideal-text">
+                    <p style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
+                      {renderWithBold(typeof modalData.suggested_answer === 'object' ? JSON.stringify(modalData.suggested_answer) : modalData.suggested_answer)}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
             
             <div className="qd-modal-footer">
