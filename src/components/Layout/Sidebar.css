@@ -273,6 +273,10 @@
   transform: scale(1.05);
 }
 
+.profile-menu-container.desktop-only {
+  display: none;
+}
+
 .profile-dropdown {
   position: absolute;
   bottom: 120%; /* For desktop sidebar footer */
@@ -300,10 +304,20 @@
 
 /* For desktop sidebar, align left */
 @media (min-width: 768px) {
+  .profile-menu-container.desktop-only {
+    position: fixed;
+    top: 24px;
+    right: 32px;
+    z-index: 50;
+    display: flex;
+  }
+
   .profile-dropdown {
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
+    top: 120%;
+    bottom: auto;
+    right: 0;
+    left: auto;
+    transform: none;
   }
 }
 

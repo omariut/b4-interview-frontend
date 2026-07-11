@@ -6,7 +6,8 @@ import './Sidebar.css';
 const Sidebar = ({ theme, toggleTheme }) => {
   const navigate = useNavigate();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const menuRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const desktopMenuRef = useRef(null);
 
   useEffect(() => {
     // Auth check or other global sidebar logic if needed
@@ -14,7 +15,9 @@ const Sidebar = ({ theme, toggleTheme }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+      const clickedMobile = mobileMenuRef.current && mobileMenuRef.current.contains(event.target);
+      const clickedDesktop = desktopMenuRef.current && desktopMenuRef.current.contains(event.target);
+      if (!clickedMobile && !clickedDesktop) {
         setIsProfileMenuOpen(false);
       }
     };
@@ -29,11 +32,15 @@ const Sidebar = ({ theme, toggleTheme }) => {
 
   const toggleMenu = () => setIsProfileMenuOpen(!isProfileMenuOpen);
 
-  const ProfileMenu = () => (
-    <div className="profile-menu-container" ref={menuRef}>
-      <div className="avatar-circle" onClick={toggleMenu}>
-        U
-      </div>
+  const ProfileMenu = ({ isDesktop = false }) => (
+    <div className={`profile-menu-container ${isDesktop ? 'desktop-only' : ''}`} ref={isDesktop ? desktopMenuRef : mobileMenuRef}>
+      <img 
+        src="https://api.dicebear.com/7.x/avataaars/svg?seed=Omar" 
+        alt="Profile" 
+        className="avatar-circle" 
+        onClick={toggleMenu} 
+        style={{ padding: '2px', background: 'var(--bg-surface)' }}
+      />
       {isProfileMenuOpen && (
         <div className="profile-dropdown">
           <button className="dropdown-item" onClick={() => { /* Navigate to profile */ setIsProfileMenuOpen(false); }}>
@@ -123,11 +130,12 @@ const Sidebar = ({ theme, toggleTheme }) => {
         </div>
 
         <div className="sidebar-footer">
-          <ProfileMenu />
+          {/* Footer removed since avatar is in top right now */}
         </div>
       </nav>
       
       <main className="main-content">
+        <ProfileMenu isDesktop={true} />
         <Outlet />
       </main>
     </div>
