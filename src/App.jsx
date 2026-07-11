@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Sidebar from './components/Layout/Sidebar';
@@ -14,6 +14,19 @@ import Subscription from './pages/Subscription/Subscription';
 import PaymentHistory from './pages/PaymentHistory/PaymentHistory';
 
 function App() {
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -21,7 +34,7 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {/* Protected/Main App Routes wrapped in Sidebar Layout */}
-        <Route element={<Sidebar />}>
+        <Route element={<Sidebar theme={theme} toggleTheme={toggleTheme} />}>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/upload-cv" element={<CVUpload />} />
