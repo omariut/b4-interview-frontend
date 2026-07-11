@@ -35,7 +35,7 @@ const Sidebar = ({ theme, toggleTheme }) => {
   const ProfileMenu = ({ isDesktop = false }) => (
     <div className={`profile-menu-container ${isDesktop ? 'desktop-only' : ''}`} ref={isDesktop ? desktopMenuRef : mobileMenuRef}>
       <img 
-        src="https://api.dicebear.com/7.x/avataaars/svg?seed=Omar" 
+        src="https://ui-avatars.com/api/?name=User&background=38bdf8&color=fff&rounded=true&bold=true" 
         alt="Profile" 
         className="avatar-circle" 
         onClick={toggleMenu} 
