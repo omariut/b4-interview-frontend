@@ -174,7 +174,7 @@ const CVDetails = () => {
                           onClick={() => handleQuestionClick(q.id)}
                         >
                           <div className="question-number-clean">
-                            Q{globalQIndex + 1}
+                            {globalQIndex + 1}
                           </div>
                           <div style={{ flex: 1 }}>
                             <div style={{ color: 'var(--text-primary)', lineHeight: '1.6', fontSize: '1rem' ,textAlign:'start' }}>
@@ -191,9 +191,7 @@ const CVDetails = () => {
                               </div>
                             )}
                           </div>
-                          <div className="question-arrow-clean">
-                            →
-                          </div>
+                          
                         </div>
                       )
                     })}
