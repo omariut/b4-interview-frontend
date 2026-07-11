@@ -6,11 +6,25 @@ import './Sidebar.css';
 const Sidebar = ({ theme, toggleTheme }) => {
   const navigate = useNavigate();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const mobileMenuRef = useRef(null);
   const desktopMenuRef = useRef(null);
 
+  const fetchProfile = async () => {
+    try {
+      const data = await authApi.getMe();
+      setUser(data);
+    } catch (e) {
+      // ignore
+    }
+  };
+
   useEffect(() => {
-    // Auth check or other global sidebar logic if needed
+    fetchProfile();
+    
+    // Listen for profile updates from the Profile page
+    window.addEventListener('profileUpdated', fetchProfile);
+    return () => window.removeEventListener('profileUpdated', fetchProfile);
   }, []);
 
   useEffect(() => {
@@ -32,10 +46,15 @@ const Sidebar = ({ theme, toggleTheme }) => {
 
   const toggleMenu = () => setIsProfileMenuOpen(!isProfileMenuOpen);
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+  const avatarUrl = user?.profile_picture_url 
+    ? (user.profile_picture_url.startsWith('http') ? user.profile_picture_url : `${API_BASE_URL}${user.profile_picture_url}`)
+    : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.full_name || 'User')}&background=38bdf8&color=fff&rounded=true&bold=true`;
+
   const ProfileMenu = ({ isDesktop = false }) => (
     <div className={`profile-menu-container ${isDesktop ? 'desktop-only' : ''}`} ref={isDesktop ? desktopMenuRef : mobileMenuRef}>
       <img 
-        src="https://ui-avatars.com/api/?name=User&background=38bdf8&color=fff&rounded=true&bold=true" 
+        src={avatarUrl} 
         alt="Profile" 
         className="avatar-circle" 
         onClick={toggleMenu} 
@@ -43,7 +62,7 @@ const Sidebar = ({ theme, toggleTheme }) => {
       />
       {isProfileMenuOpen && (
         <div className="profile-dropdown">
-          <button className="dropdown-item" onClick={() => { /* Navigate to profile */ setIsProfileMenuOpen(false); }}>
+          <button className="dropdown-item" onClick={() => { navigate('/profile'); setIsProfileMenuOpen(false); }}>
             <span className="nav-icon">👤</span> Profile
           </button>
           <button className="dropdown-item" onClick={() => { toggleTheme(); setIsProfileMenuOpen(false); }}>

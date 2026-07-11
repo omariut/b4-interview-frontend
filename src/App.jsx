@@ -5,6 +5,7 @@ import Sidebar from './components/Layout/Sidebar';
 
 // New Pages
 import Dashboard from './pages/Dashboard/Dashboard';
+import Profile from './pages/Profile/Profile';
 import CVUpload from './pages/CVUpload/CVUpload';
 import CVList from './pages/CVList/CVList';
 import CVDetails from './pages/CVDetails/CVDetails';
@@ -37,6 +38,7 @@ function App() {
         <Route element={<Sidebar theme={theme} toggleTheme={toggleTheme} />}>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/upload-cv" element={<CVUpload />} />
           <Route path="/cvs" element={<CVList />} />
           <Route path="/cvs/:id" element={<CVDetails />} />
