@@ -71,6 +71,22 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteImage = async () => {
+    setMessage('');
+    setError('');
+    try {
+      setSaving(true);
+      await authApi.deleteProfilePicture();
+      setUser(prev => ({ ...prev, profile_picture_url: null }));
+      setMessage('Profile picture deleted successfully!');
+      window.dispatchEvent(new Event('profileUpdated'));
+    } catch (err) {
+      setError(err.message || 'Failed to delete profile picture.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) {
     return <div className="profile-loading">Loading profile...</div>;
   }
@@ -109,6 +125,16 @@ const Profile = () => {
           <div className="profile-picture-info">
             <h3>Profile Picture</h3>
             <p>Click the image to upload a new picture (JPG, PNG).</p>
+            {user?.profile_picture_url && (
+              <button 
+                type="button" 
+                onClick={handleDeleteImage} 
+                className="delete-picture-btn"
+                disabled={saving}
+              >
+                🗑️ Delete Picture
+              </button>
+            )}
           </div>
         </div>
 

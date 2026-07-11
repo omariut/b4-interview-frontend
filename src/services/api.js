@@ -88,6 +88,16 @@ export const authApi = {
     return responseData;
   },
 
+  deleteProfilePicture: async () => {
+    const response = await fetch(`${API_BASE_URL}/auth/profile-picture`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    const responseData = await response.json().catch(() => null);
+    if (!response.ok) throw new Error(responseData?.detail || 'Failed to delete profile picture');
+    return responseData;
+  },
+
   // Register API call
   register: async (phone_number, password) => {
     const response = await fetch(`${API_BASE_URL}/auth/register`, {

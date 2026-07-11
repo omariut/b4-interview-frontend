@@ -96,6 +96,29 @@
   color: var(--text-secondary);
   font-size: 0.9rem;
   text-align: center;
+  margin-bottom: 8px;
+}
+
+.delete-picture-btn {
+  background: transparent;
+  color: var(--error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 6px 12px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.delete-picture-btn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.delete-picture-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .profile-form {
