@@ -60,9 +60,45 @@ const Login = () => {
           <h2 className="brand-tagline" style={{ fontSize: '1.2rem', margin: '0 0 16px 0', color: 'var(--text-primary)', fontWeight: '600' }}>
             Land Your Dream Job with AI
           </h2>
-          <p className="brand-slogan" style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+          <p className="brand-slogan" style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: '1.5', margin: '0 0 24px 0' }}>
             Upload your CV. Get grilled by our AI recruiter.<br/>Walk into your real interview with unbreakable confidence.
           </p>
+
+          <div className="features-grid" style={{
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: '16px',
+            textAlign: 'left',
+            background: 'rgba(0,0,0,0.2)',
+            padding: '24px',
+            borderRadius: '16px',
+            border: '1px solid var(--glass-border)',
+            marginBottom: '24px'
+          }}>
+            <div className="feature-item" style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+              <div style={{ fontSize: '1.5rem', background: 'var(--bg-surface)', padding: '8px', borderRadius: '12px' }}>📄</div>
+              <div>
+                <h3 style={{ margin: '0 0 4px 0', fontSize: '1rem', color: 'var(--text-primary)' }}>Hyper-Personalized Prep</h3>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>We instantly analyze your uploaded CV to generate brutal, highly-specific questions that real hiring managers would ask.</p>
+              </div>
+            </div>
+            
+            <div className="feature-item" style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+              <div style={{ fontSize: '1.5rem', background: 'var(--bg-surface)', padding: '8px', borderRadius: '12px' }}>🎙️</div>
+              <div>
+                <h3 style={{ margin: '0 0 4px 0', fontSize: '1rem', color: 'var(--text-primary)' }}>Live Interview Simulation</h3>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Face off against an adaptive AI that dynamically adjusts the difficulty based on your answers in real-time.</p>
+              </div>
+            </div>
+            
+            <div className="feature-item" style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+              <div style={{ fontSize: '1.5rem', background: 'var(--bg-surface)', padding: '8px', borderRadius: '12px' }}>📈</div>
+              <div>
+                <h3 style={{ margin: '0 0 4px 0', fontSize: '1rem', color: 'var(--text-primary)' }}>Actionable Feedback</h3>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Get a detailed scorecard highlighting your blind spots, complete with "perfect answer" suggestions to ace the real deal.</p>
+              </div>
+            </div>
+          </div>
         </div>
         
         {error && <div className="login-error">{error}</div>}
