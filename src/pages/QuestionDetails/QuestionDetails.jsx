@@ -102,6 +102,14 @@ const QuestionDetails = () => {
   const [submitError, setSubmitError] = useState('');
   const recognitionRef = useRef(null);
 
+  // Copy State
+  const [copied, setCopied] = useState(false);
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   useEffect(() => {
     const fetchQuestionDetails = async () => {
       try {
@@ -395,7 +403,15 @@ const QuestionDetails = () => {
               <div style={{ marginTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.05)', paddingTop: '16px' }}>
                 {questionData.ideal_answer ? (
                   <div className="qd-ideal-block" style={{ marginTop: '0' }}>
-                    <h4 style={{ margin: '0 0 8px 0', fontSize: '0.9rem', color: 'var(--primary)' }}>✨ AI Ideal Answer:</h4>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <h4 style={{ margin: 0, fontSize: '0.9rem', color: 'var(--primary)' }}>✨ AI Ideal Answer:</h4>
+                      <button 
+                        onClick={() => handleCopy(typeof questionData.ideal_answer === 'object' ? JSON.stringify(questionData.ideal_answer) : questionData.ideal_answer)}
+                        style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'var(--text-secondary)', padding: '2px 8px', borderRadius: '4px', fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.2s' }}
+                      >
+                        {copied ? '✓ Copied!' : '📋 Copy'}
+                      </button>
+                    </div>
                     <div style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
                       <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)', whiteSpace: 'pre-wrap' }}>
                         {renderWithBold(typeof questionData.ideal_answer === 'object' ? JSON.stringify(questionData.ideal_answer) : questionData.ideal_answer)}
@@ -510,7 +526,15 @@ const QuestionDetails = () => {
 
               {modalData.suggested_answer && (
                 <div className="qd-ideal-block">
-                  <h4 style={{ margin: '0 0 8px 0', color: 'var(--primary)' }}>✨ AI Ideal Answer</h4>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <h4 style={{ margin: 0, color: 'var(--primary)' }}>✨ AI Ideal Answer</h4>
+                    <button 
+                      onClick={() => handleCopy(typeof modalData.suggested_answer === 'object' ? JSON.stringify(modalData.suggested_answer) : modalData.suggested_answer)}
+                      style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'var(--text-secondary)', padding: '2px 8px', borderRadius: '4px', fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.2s' }}
+                    >
+                      {copied ? '✓ Copied!' : '📋 Copy'}
+                    </button>
+                  </div>
                   <div className="qd-ideal-text">
                     <p style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
                       {renderWithBold(typeof modalData.suggested_answer === 'object' ? JSON.stringify(modalData.suggested_answer) : modalData.suggested_answer)}
