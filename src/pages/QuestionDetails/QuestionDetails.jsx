@@ -393,12 +393,12 @@ const QuestionDetails = () => {
             
             {isIdealAnswerOpen && (
               <div style={{ marginTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.05)', paddingTop: '16px' }}>
-                {questionData.answers.find(a => a.suggested_answer) ? (
+                {questionData.ideal_answer ? (
                   <div className="qd-ideal-block" style={{ marginTop: '0' }}>
-                    <h4 style={{ margin: '0 0 8px 0', fontSize: '0.9rem', color: 'var(--primary)' }}>✨ AI Suggested Response:</h4>
+                    <h4 style={{ margin: '0 0 8px 0', fontSize: '0.9rem', color: 'var(--primary)' }}>✨ AI Ideal Answer:</h4>
                     <div style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
                       <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)', whiteSpace: 'pre-wrap' }}>
-                        {renderWithBold(typeof questionData.answers.find(a => a.suggested_answer).suggested_answer === 'object' ? JSON.stringify(questionData.answers.find(a => a.suggested_answer).suggested_answer) : questionData.answers.find(a => a.suggested_answer).suggested_answer)}
+                        {renderWithBold(typeof questionData.ideal_answer === 'object' ? JSON.stringify(questionData.ideal_answer) : questionData.ideal_answer)}
                       </p>
                     </div>
                   </div>
@@ -505,15 +505,6 @@ const QuestionDetails = () => {
               <div className="qd-feedback-block" style={{ marginBottom: '24px' }}>
                 <div className="qd-feedback-text">
                   <StructuredFeedback feedback={modalData.feedback} />
-                </div>
-              </div>
-
-              <div className="qd-ideal-block">
-                <h4 style={{ margin: '0 0 8px 0', color: 'var(--primary)' }}>✨ AI Suggested Response</h4>
-                <div className="qd-ideal-text">
-                  <p style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
-                    {renderWithBold(typeof modalData.suggested_answer === 'object' ? JSON.stringify(modalData.suggested_answer) : modalData.suggested_answer)}
-                  </p>
                 </div>
               </div>
             </div>
