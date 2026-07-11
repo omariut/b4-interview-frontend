@@ -306,8 +306,8 @@
 @media (min-width: 768px) {
   .profile-menu-container.desktop-only {
     position: fixed;
-    top: 24px;
-    right: 32px;
+    top: 16px;
+    right: 16px;
     z-index: 50;
     display: flex;
   }
