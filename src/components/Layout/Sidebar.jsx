@@ -1,18 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { authApi } from '../../services/api';
 import './Sidebar.css';
 
 const Sidebar = ({ theme, toggleTheme }) => {
   const navigate = useNavigate();
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
   useEffect(() => {
     // Auth check or other global sidebar logic if needed
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
     navigate('/login');
   };
+
+  const toggleMenu = () => setIsProfileMenuOpen(!isProfileMenuOpen);
+
+  const ProfileMenu = () => (
+    <div className="profile-menu-container" ref={menuRef}>
+      <div className="avatar-circle" onClick={toggleMenu}>
+        U
+      </div>
+      {isProfileMenuOpen && (
+        <div className="profile-dropdown">
+          <button className="dropdown-item" onClick={() => { /* Navigate to profile */ setIsProfileMenuOpen(false); }}>
+            <span className="nav-icon">👤</span> Profile
+          </button>
+          <button className="dropdown-item" onClick={() => { toggleTheme(); setIsProfileMenuOpen(false); }}>
+            <span className="nav-icon">{theme === 'dark' ? '☀️' : '🌙'}</span> 
+            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+          </button>
+          <button className="dropdown-item logout" onClick={handleLogout}>
+            <span className="nav-icon">🚪</span> Logout
+          </button>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="layout-container">
@@ -22,14 +59,8 @@ const Sidebar = ({ theme, toggleTheme }) => {
           <img src="/logo.png" alt="logo" className="sidebar-logo-img" />
           <h2 className="sidebar-logo-text">b4interview</h2>
         </div>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button className="mobile-logout-btn" onClick={toggleTheme} style={{ background: 'var(--bg-surface-hover)' }}>
-            <span className="nav-icon" style={{ marginBottom: 0, marginRight: 0 }}>{theme === 'dark' ? '☀️' : '🌙'}</span>
-          </button>
-          <button className="mobile-logout-btn" onClick={handleLogout}>
-            <span className="nav-icon" style={{ marginBottom: 0, marginRight: 0 }}>🚪</span>
-            Logout
-          </button>
+        <div style={{ display: 'flex', gap: '8px', position: 'relative' }}>
+          <ProfileMenu />
         </div>
       </div>
 
@@ -92,14 +123,7 @@ const Sidebar = ({ theme, toggleTheme }) => {
         </div>
 
         <div className="sidebar-footer">
-          <button className="nav-link" onClick={toggleTheme} style={{ background: 'transparent', border: 'none', width: '100%', textAlign: 'left', color: 'var(--text-primary)', cursor: 'pointer', marginBottom: '8px' }}>
-            <span className="nav-icon">{theme === 'dark' ? '☀️' : '🌙'}</span>
-            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-          </button>
-          <button className="logout-btn" onClick={handleLogout}>
-            <span className="nav-icon">🚪</span>
-            Logout
-          </button>
+          <ProfileMenu />
         </div>
       </nav>
       
