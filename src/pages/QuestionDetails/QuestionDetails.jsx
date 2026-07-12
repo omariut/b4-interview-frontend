@@ -185,12 +185,6 @@ const QuestionDetails = () => {
   const handleSubmitAnswer = async () => {
     if (!currentAnswer.trim() || isSubmitting) return;
     
-    const wordCount = currentAnswer.trim().split(/\s+/).filter(Boolean).length;
-    if (wordCount < 20) {
-      setSubmitError(`Answer is too short. Please provide a detailed response of at least 20 words (currently ${wordCount} words).`);
-      return;
-    }
-    
     setIsSubmitting(true);
     setSubmitError('');
     try {
@@ -348,9 +342,20 @@ const QuestionDetails = () => {
           {/* New Answer Input */}
           <div className="qd-card">
             <div className="qd-submit-header">
-              <h3 className="qd-card-title" style={{ margin: 0 }}>
+              <h3 className="qd-card-title" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '12px' }}>
                 Submit Your Answer
                 {isLimitReached && <span className="qd-limit-badge">Max 3 attempts reached</span>}
+                {!isLimitReached && (
+                  <span style={{
+                    fontSize: '0.75rem',
+                    background: 'rgba(255,255,255,0.1)',
+                    padding: '4px 8px',
+                    borderRadius: '12px',
+                    color: currentAnswer.trim().split(/\s+/).filter(Boolean).length >= 20 ? 'var(--success)' : 'var(--text-secondary)'
+                  }}>
+                    {currentAnswer.trim() ? currentAnswer.trim().split(/\s+/).filter(Boolean).length : 0} / 20 min words
+                  </span>
+                )}
               </h3>
               <button 
                 className={`btn-voice ${isRecording ? 'recording' : ''}`}
@@ -382,7 +387,7 @@ const QuestionDetails = () => {
               <button 
                 className="btn-primary" 
                 onClick={handleSubmitAnswer} 
-                disabled={!currentAnswer.trim() || isSubmitting || isLimitReached}
+                disabled={!currentAnswer.trim() || isSubmitting || isLimitReached || (currentAnswer.trim().split(/\s+/).filter(Boolean).length < 20)}
               >
                 {isSubmitting ? (
                    <span>Grading with AI... <span className="spinner">⏳</span></span>
