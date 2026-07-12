@@ -166,6 +166,11 @@ export const interviewApi = {
       body: JSON.stringify({ answer_text })
     });
   },
+  generateIdealAnswer: (questionId) => {
+    return fetchWithAuth(`/interview/questions/${questionId}/ideal-answer`, {
+      method: 'POST'
+    });
+  },
   submitFeedback: (answerId, feedback_rating) => {
     return fetchWithAuth(`/interview/answers/${answerId}/feedback`, {
       method: 'POST',

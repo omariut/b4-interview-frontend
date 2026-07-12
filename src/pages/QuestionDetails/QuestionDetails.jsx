@@ -91,6 +91,10 @@ const QuestionDetails = () => {
   const [modalData, setModalData] = useState(null);
   const [isIdealAnswerOpen, setIsIdealAnswerOpen] = useState(window.innerWidth >= 900);
   
+  // Show Answer Now State
+  const [showIdealWarning, setShowIdealWarning] = useState(false);
+  const [isGeneratingIdeal, setIsGeneratingIdeal] = useState(false);
+  
   // Report Modal State
   const [reportModalData, setReportModalData] = useState(null); // { answerId: number }
   const [reportText, setReportText] = useState('');
@@ -237,6 +241,22 @@ const QuestionDetails = () => {
       alert(err.message || 'Failed to submit report');
     } finally {
       setIsSubmittingReport(false);
+    }
+  };
+
+  const handleGenerateIdealAnswer = async () => {
+    setIsGeneratingIdeal(true);
+    try {
+      const response = await interviewApi.generateIdealAnswer(questionData.id);
+      setQuestionData(prev => ({
+        ...prev,
+        ideal_answer: response.ideal_answer
+      }));
+      setShowIdealWarning(false);
+    } catch (err) {
+      alert(err.message || "Failed to generate ideal answer");
+    } finally {
+      setIsGeneratingIdeal(false);
     }
   };
 
@@ -432,7 +452,14 @@ const QuestionDetails = () => {
                   </div>
                 ) : (
                   <div className="qd-empty-history" style={{ padding: '24px' }}>
-                    <p style={{ fontSize: '0.9rem', margin: 0 }}>The AI will generate an ideal answer after you submit your first attempt.</p>
+                    <p style={{ fontSize: '0.9rem', margin: '0 0 16px 0' }}>The AI will generate an ideal answer after you submit your first attempt.</p>
+                    <button 
+                      className="btn-secondary" 
+                      onClick={() => setShowIdealWarning(true)}
+                      style={{ fontSize: '0.85rem', padding: '6px 12px' }}
+                    >
+                      Show Answer Now
+                    </button>
                   </div>
                 )}
               </div>
@@ -613,6 +640,47 @@ const QuestionDetails = () => {
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Show Answer Now Warning Modal */}
+      {showIdealWarning && (
+        <div className="qd-modal-overlay" onClick={() => !isGeneratingIdeal && setShowIdealWarning(false)}>
+          <div className="qd-modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px' }}>
+            <div className="qd-modal-header">
+              <h2 style={{ color: 'var(--warning)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>⚠️</span> Are you sure?
+              </h2>
+              <button className="qd-modal-close" onClick={() => !isGeneratingIdeal && setShowIdealWarning(false)}>×</button>
+            </div>
+            
+            <div className="qd-modal-body">
+              <p style={{ color: 'var(--text-secondary)', margin: '0 0 16px 0', lineHeight: '1.5' }}>
+                The AI uses your specific attempt as context to tailor its ideal answer. Generating it now without answering first might cause it to miss some nuances and context. 
+              </p>
+              <p style={{ color: 'var(--text-primary)', margin: 0, fontWeight: '500' }}>
+                Do you still want to generate the ideal answer?
+              </p>
+            </div>
+            
+            <div className="qd-modal-footer" style={{ justifyContent: 'space-between' }}>
+              <button 
+                className="btn-secondary" 
+                onClick={() => setShowIdealWarning(false)}
+                disabled={isGeneratingIdeal}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn-primary" 
+                onClick={handleGenerateIdealAnswer}
+                disabled={isGeneratingIdeal}
+                style={{ background: 'var(--warning)', color: '#000' }}
+              >
+                {isGeneratingIdeal ? 'Generating...' : 'Show Answer Now'}
+              </button>
+            </div>
           </div>
         </div>
       )}
