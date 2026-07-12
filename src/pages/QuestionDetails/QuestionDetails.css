@@ -161,9 +161,8 @@
 }
 
 .qd-history-block strong, .qd-feedback-block strong, .qd-ideal-block strong {
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 .qd-history-block strong {
