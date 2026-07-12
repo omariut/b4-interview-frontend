@@ -185,6 +185,12 @@ const QuestionDetails = () => {
   const handleSubmitAnswer = async () => {
     if (!currentAnswer.trim() || isSubmitting) return;
     
+    const wordCount = currentAnswer.trim().split(/\s+/).filter(Boolean).length;
+    if (wordCount < 20) {
+      setSubmitError(`Answer is too short. Please provide a detailed response of at least 20 words (currently ${wordCount} words).`);
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitError('');
     try {
