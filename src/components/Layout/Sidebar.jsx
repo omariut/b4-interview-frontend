@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { authApi } from '../../services/api';
+import { usePostHog } from 'posthog-js/react';
 import './Sidebar.css';
 
 const Sidebar = ({ theme, toggleTheme }) => {
   const navigate = useNavigate();
+  const posthog = usePostHog();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
   const mobileMenuRef = useRef(null);
@@ -14,6 +16,13 @@ const Sidebar = ({ theme, toggleTheme }) => {
     try {
       const data = await authApi.getMe();
       setUser(data);
+      if (posthog) {
+        posthog.identify(data.id, {
+          email: data.email,
+          name: data.full_name,
+          phone: data.phone_number
+        });
+      }
     } catch (e) {
       // ignore
     }
@@ -41,6 +50,7 @@ const Sidebar = ({ theme, toggleTheme }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
+    if (posthog) posthog.reset();
     navigate('/login');
   };
 
