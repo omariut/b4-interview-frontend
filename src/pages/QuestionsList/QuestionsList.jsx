@@ -3,6 +3,43 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { interviewApi } from '../../services/api';
 import './QuestionsList.css';
 
+const renderWithBold = (text) => {
+  if (typeof text !== 'string') return text;
+  const lines = text.split('\n');
+  return lines.map((line, lineIndex) => {
+    let content;
+    const bulletMatch = line.match(/^(\s*-\s+)([^:]+)(:\s+)(.*)$/);
+    
+    if (bulletMatch && !line.includes('**')) {
+      content = (
+        <React.Fragment>
+          {bulletMatch[1]}
+          <strong>{bulletMatch[2]}:</strong>
+          {' '}
+          {bulletMatch[4]}
+        </React.Fragment>
+      );
+    } else {
+      const parts = line.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+      content = parts.map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={i}>{part.slice(2, -2)}</strong>;
+        } else if (part.startsWith('*') && part.endsWith('*')) {
+          return <em key={i}>{part.slice(1, -1)}</em>;
+        }
+        return part;
+      });
+    }
+
+    return (
+      <React.Fragment key={lineIndex}>
+        {content}
+        {lineIndex < lines.length - 1 ? '\n' : null}
+      </React.Fragment>
+    );
+  });
+};
+
 const QuestionsList = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,6 +50,9 @@ const QuestionsList = () => {
   const [filter, setFilter] = useState('all'); // 'all', 'answered', 'unanswered'
   const [selectedCV, setSelectedCV] = useState('all');
   const [selectedClaim, setSelectedClaim] = useState('all');
+  
+  // Modal state
+  const [modalQuestion, setModalQuestion] = useState(null);
 
   // Read URL query params to set initial filter
   useEffect(() => {
@@ -180,6 +220,18 @@ const QuestionsList = () => {
                   <span className={`status-badge ${q.answered ? 'status-answered' : 'status-unanswered'}`}>
                     {q.answered ? '✅ Answered' : '⏳ Unanswered'}
                   </span>
+                  {q.ideal_answer && (
+                    <button 
+                      className="btn-secondary" 
+                      style={{ fontSize: '0.75rem', padding: '4px 8px', margin: 0 }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setModalQuestion(q);
+                      }}
+                    >
+                      ✨ View Ideal Answer
+                    </button>
+                  )}
                 </div>
                 
                 <div className="question-text">
@@ -194,6 +246,30 @@ const QuestionsList = () => {
           </div>
         )}
       </div>
+
+      {modalQuestion && (
+        <div className="qd-modal-overlay" onClick={() => setModalQuestion(null)}>
+          <div className="qd-modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '600px' }}>
+            <div className="qd-modal-header">
+              <h2>✨ AI Ideal Answer</h2>
+              <button className="qd-modal-close" onClick={() => setModalQuestion(null)}>×</button>
+            </div>
+            
+            <div className="qd-modal-body" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+              <div style={{ marginBottom: '16px', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
+                <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}><strong>Question:</strong> {modalQuestion.text}</p>
+              </div>
+              <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)', whiteSpace: 'pre-wrap' }}>
+                {renderWithBold(typeof modalQuestion.ideal_answer === 'object' ? JSON.stringify(modalQuestion.ideal_answer) : modalQuestion.ideal_answer)}
+              </p>
+            </div>
+            
+            <div className="qd-modal-footer">
+              <button className="btn-primary" onClick={() => setModalQuestion(null)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
