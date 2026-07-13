@@ -97,7 +97,11 @@ const Sidebar = ({ theme, toggleTheme }) => {
     <div className="layout-container">
       {/* Mobile Topbar */}
       <div className="mobile-topbar">
-        <div className="sidebar-logo-container">
+        <div 
+          className="sidebar-logo-container" 
+          onClick={() => navigate('/dashboard')}
+          style={{ cursor: 'pointer' }}
+        >
           <img src="/logo.png" alt="logo" className="sidebar-logo-img" />
           <h2 className="sidebar-logo-text">b4interview</h2>
         </div>
@@ -108,7 +112,11 @@ const Sidebar = ({ theme, toggleTheme }) => {
 
       <nav className="sidebar">
         <div className="sidebar-header">
-          <div className="sidebar-logo-container">
+          <div 
+            className="sidebar-logo-container"
+            onClick={() => navigate('/dashboard')}
+            style={{ cursor: 'pointer' }}
+          >
             <img src="/logo.png" alt="logo" className="sidebar-logo-img" />
             <h2 className="sidebar-logo-text">b4interview</h2>
           </div>
