@@ -15,6 +15,7 @@ import AnswersList from './pages/AnswersList/AnswersList';
 import Feedback from './pages/Feedback/Feedback';
 import Subscription from './pages/Subscription/Subscription';
 import PaymentHistory from './pages/PaymentHistory/PaymentHistory';
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -35,6 +36,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
 
         {/* Protected/Main App Routes wrapped in Sidebar Layout */}
         <Route element={<Sidebar theme={theme} toggleTheme={toggleTheme} />}>
