@@ -89,7 +89,7 @@ const CVList = () => {
             </thead>
             <tbody>
               {cvs.map((cv) => (
-                <tr key={cv.id}>
+                <tr key={cv.id} onClick={() => navigate(`/cvs/${cv.id}`)}>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <CVThumbnail cvId={cv.id} />
