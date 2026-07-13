@@ -163,6 +163,16 @@ const Sidebar = ({ theme, toggleTheme }) => {
             Ideal Answers
           </NavLink>
 
+          <a 
+            href="https://forms.gle/5oHGqba4PKTLDn7B6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-link"
+          >
+            <span className="nav-icon">💬</span>
+            Feedback
+          </a>
+
         </div>
 
         <div className="sidebar-footer">
