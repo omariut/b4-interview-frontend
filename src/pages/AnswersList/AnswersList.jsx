@@ -165,19 +165,32 @@ const AnswersList = () => {
                               </div>
                             </div>
                           ) : (
-                            <React.Fragment>
-                              <span className="no-answer-placeholder">No ideal answer generated yet.</span>
-                              <button 
-                                className="btn-secondary" 
-                                style={{ fontSize: '0.8rem', padding: '6px 12px' }}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setWarningId(q.id);
-                                }}
-                              >
-                                Show Answer
-                              </button>
-                            </React.Fragment>
+                            <button 
+                              style={{ 
+                                fontSize: '0.8rem', 
+                                padding: '4px 10px', 
+                                background: 'rgba(255, 255, 255, 0.05)', 
+                                border: '1px solid rgba(255, 255, 255, 0.1)', 
+                                borderRadius: '6px',
+                                color: 'var(--text-secondary)',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setWarningId(q.id);
+                              }}
+                              onMouseOver={(e) => {
+                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                                e.currentTarget.style.color = 'var(--text-primary)';
+                              }}
+                              onMouseOut={(e) => {
+                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                                e.currentTarget.style.color = 'var(--text-secondary)';
+                              }}
+                            >
+                              ✨ Show Answer
+                            </button>
                           )}
                         </div>
                       )}
