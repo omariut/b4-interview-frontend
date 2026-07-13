@@ -7,4 +7,7 @@ export default defineConfig({
   server: {
     allowedHosts: ['b4interview.com'],
   },
+  resolve: {
+    dedupe: ['react', 'react-dom']
+  }
 })
