@@ -94,10 +94,8 @@
   color: var(--accent-primary);
   padding: 6px 14px;
   border-radius: 12px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .question-text-bold {
