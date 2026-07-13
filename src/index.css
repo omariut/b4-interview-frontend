@@ -21,8 +21,16 @@
   --error: #ef4444;
   --warning: #f59e0b;
 
+  /* Theme-aware Alpha colors */
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-medium: rgba(255, 255, 255, 0.2);
+  --bg-hover-light: rgba(255, 255, 255, 0.05);
+  --bg-hover-medium: rgba(255, 255, 255, 0.1);
+  --skeleton-base: rgba(255, 255, 255, 0.03);
+  --skeleton-highlight: rgba(255, 255, 255, 0.08);
+
   /* Glassmorphism & Effects */
-  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-border: 1px solid var(--border-light);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   --glass-blur: blur(12px);
   --border-radius-sm: 8px;
@@ -48,8 +56,16 @@
   --accent-gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
   --accent-gradient-hover: linear-gradient(135deg, #0284c7, #4f46e5);
   
+  /* Theme-aware Alpha colors */
+  --border-light: rgba(0, 0, 0, 0.1);
+  --border-medium: rgba(0, 0, 0, 0.2);
+  --bg-hover-light: rgba(0, 0, 0, 0.05);
+  --bg-hover-medium: rgba(0, 0, 0, 0.1);
+  --skeleton-base: rgba(0, 0, 0, 0.03);
+  --skeleton-highlight: rgba(0, 0, 0, 0.08);
+
   /* Glassmorphism & Effects */
-  --glass-border: 1px solid rgba(0, 0, 0, 0.1);
+  --glass-border: 1px solid var(--border-light);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
 }
 
@@ -133,7 +149,7 @@ a:hover {
 .btn-secondary {
   background: transparent;
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-medium);
   padding: 10px 24px;
   border-radius: var(--border-radius-sm);
   font-size: 1rem;
@@ -143,8 +159,8 @@ a:hover {
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: var(--bg-hover-light);
+  border-color: var(--text-secondary);
 }
 
 /* Scrollbar Customization */
@@ -158,12 +174,12 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-hover-medium);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--border-medium);
 }
 
 /* --- Premium Shimmer Skeleton --- */
@@ -179,9 +195,9 @@ a:hover {
 .skeleton {
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.03) 25%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0.03) 75%
+    var(--skeleton-base) 25%,
+    var(--skeleton-highlight) 50%,
+    var(--skeleton-base) 75%
   );
   background-size: 1000px 100%;
   animation: shimmer 2s infinite linear;
@@ -206,7 +222,7 @@ a:hover {
 
 .skeleton-card {
   background: var(--bg-surface);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: var(--glass-border);
   border-radius: var(--border-radius-md);
   padding: 24px;
   display: flex;

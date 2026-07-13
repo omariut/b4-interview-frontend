@@ -169,8 +169,8 @@ const AnswersList = () => {
                               style={{ 
                                 fontSize: '0.8rem', 
                                 padding: '4px 10px', 
-                                background: 'rgba(255, 255, 255, 0.05)', 
-                                border: '1px solid rgba(255, 255, 255, 0.1)', 
+                                background: 'var(--bg-hover-light)', 
+                                border: '1px solid var(--border-medium)', 
                                 borderRadius: '6px',
                                 color: 'var(--text-secondary)',
                                 cursor: 'pointer',
@@ -181,11 +181,11 @@ const AnswersList = () => {
                                 setWarningId(q.id);
                               }}
                               onMouseOver={(e) => {
-                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                                e.currentTarget.style.background = 'var(--bg-hover-medium)';
                                 e.currentTarget.style.color = 'var(--text-primary)';
                               }}
                               onMouseOut={(e) => {
-                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                                e.currentTarget.style.background = 'var(--bg-hover-light)';
                                 e.currentTarget.style.color = 'var(--text-secondary)';
                               }}
                             >
