@@ -147,7 +147,7 @@ const AnswersList = () => {
                             onClick={(e) => handleGenerateIdealAnswer(e, q.id)}
                             disabled={generatingId === q.id}
                           >
-                            {generatingId === q.id ? 'Generating...' : '✨ Generate Now'}
+                            {generatingId === q.id ? 'Loading...' : 'Show Answer'}
                           </button>
                         </div>
                       )}
