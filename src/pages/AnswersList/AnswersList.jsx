@@ -46,6 +46,7 @@ const AnswersList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [generatingId, setGeneratingId] = useState(null);
+  const [warningId, setWarningId] = useState(null);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -140,15 +141,44 @@ const AnswersList = () => {
                         </div>
                       ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
-                          <span className="no-answer-placeholder">No ideal answer generated yet.</span>
-                          <button 
-                            className="btn-secondary" 
-                            style={{ fontSize: '0.8rem', padding: '6px 12px' }}
-                            onClick={(e) => handleGenerateIdealAnswer(e, q.id)}
-                            disabled={generatingId === q.id}
-                          >
-                            {generatingId === q.id ? 'Loading...' : 'Show Answer'}
-                          </button>
+                          {warningId === q.id ? (
+                            <div style={{ padding: '12px', background: 'rgba(234, 179, 8, 0.1)', borderRadius: '8px', border: '1px solid rgba(234, 179, 8, 0.2)' }}>
+                              <p style={{ color: 'var(--warning)', margin: '0 0 12px 0', fontSize: '0.85rem', lineHeight: '1.4' }}>
+                                <strong>⚠️ Warning:</strong> The AI uses your specific attempt as context to tailor its ideal answer. Generating it now without answering first might cause it to miss some nuances and context.
+                              </p>
+                              <div style={{ display: 'flex', gap: '8px' }}>
+                                <button 
+                                  className="btn-primary" 
+                                  onClick={(e) => handleGenerateIdealAnswer(e, q.id)}
+                                  disabled={generatingId === q.id}
+                                  style={{ background: 'var(--warning)', color: '#000', fontSize: '0.8rem', padding: '6px 12px' }}
+                                >
+                                  {generatingId === q.id ? 'Loading...' : 'Show Answer Now'}
+                                </button>
+                                <button 
+                                  className="btn-secondary" 
+                                  onClick={(e) => { e.stopPropagation(); setWarningId(null); }}
+                                  style={{ fontSize: '0.8rem', padding: '6px 12px' }}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <React.Fragment>
+                              <span className="no-answer-placeholder">No ideal answer generated yet.</span>
+                              <button 
+                                className="btn-secondary" 
+                                style={{ fontSize: '0.8rem', padding: '6px 12px' }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setWarningId(q.id);
+                                }}
+                              >
+                                Show Answer
+                              </button>
+                            </React.Fragment>
+                          )}
                         </div>
                       )}
                     </td>
