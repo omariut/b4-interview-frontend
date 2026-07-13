@@ -1,0 +1,118 @@
+.answers-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn var(--transition-normal);
+}
+
+.answers-list-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.answers-list-header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.answers-list-header p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.answers-table-wrapper {
+  background: var(--bg-surface);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 0;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  overflow-x: auto;
+  box-shadow: var(--glass-shadow);
+}
+
+.answers-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.answers-table th {
+  padding: 16px 24px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.answers-table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: top;
+}
+
+.answers-table tbody tr {
+  transition: background var(--transition-fast);
+  cursor: pointer;
+}
+
+.answers-table tbody tr:hover {
+  background: rgba(56, 189, 248, 0.05);
+}
+
+.answers-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.question-col {
+  width: 40%;
+  min-width: 300px;
+}
+
+.answer-col {
+  width: 60%;
+  min-width: 400px;
+}
+
+.claim-badge {
+  display: inline-block;
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--accent-primary);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.question-text-bold {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ideal-answer-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.no-answer-placeholder {
+  color: var(--text-tertiary);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

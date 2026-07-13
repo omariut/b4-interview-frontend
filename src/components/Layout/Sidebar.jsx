@@ -155,6 +155,14 @@ const Sidebar = ({ theme, toggleTheme }) => {
             Questions
           </NavLink>
 
+          <NavLink 
+            to="/answers" 
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+          >
+            <span className="nav-icon">💡</span>
+            Ideal Answers
+          </NavLink>
+
         </div>
 
         <div className="sidebar-footer">
