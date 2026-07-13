@@ -7,6 +7,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [fullName, setFullName] = useState('');
+  const [whatsappNumber, setWhatsappNumber] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const fileInputRef = useRef(null);
@@ -16,6 +17,7 @@ const Profile = () => {
       const data = await authApi.getMe();
       setUser(data);
       setFullName(data.full_name || '');
+      setWhatsappNumber(data.whatsapp_number || '');
     } catch (err) {
       setError('Failed to load profile.');
     } finally {
@@ -33,7 +35,10 @@ const Profile = () => {
     setMessage('');
     setError('');
     try {
-      const updated = await authApi.updateProfile({ full_name: fullName });
+      const updated = await authApi.updateProfile({ 
+        full_name: fullName,
+        whatsapp_number: whatsappNumber 
+      });
       setUser(updated);
       setMessage('Profile updated successfully!');
       
@@ -154,6 +159,19 @@ const Profile = () => {
               placeholder="Enter your full name" 
               required 
             />
+          </div>
+
+          <div className="form-group">
+            <label>WhatsApp Number (Optional)</label>
+            <input 
+              type="tel" 
+              value={whatsappNumber} 
+              onChange={(e) => setWhatsappNumber(e.target.value)} 
+              placeholder="+88017XXXXXXXX" 
+              pattern="^\+[1-9]\d{1,14}$"
+              title="Must include country code starting with + and contain only numbers."
+            />
+            <span className="input-hint">Add your WhatsApp number with country code (e.g. +880...) to receive daily practice reminders.</span>
           </div>
           
           <div className="form-group">
