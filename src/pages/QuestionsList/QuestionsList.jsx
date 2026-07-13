@@ -53,6 +53,7 @@ const QuestionsList = () => {
   
   // Modal state
   const [modalQuestion, setModalQuestion] = useState(null);
+  const [isGeneratingIdeal, setIsGeneratingIdeal] = useState(false);
 
   // Read URL query params to set initial filter
   useEffect(() => {
@@ -80,6 +81,32 @@ const QuestionsList = () => {
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
     navigate(`/questions?filter=${newFilter}`, { replace: true });
+  };
+
+  const handleGenerateIdealAnswer = async () => {
+    if (!modalQuestion) return;
+    setIsGeneratingIdeal(true);
+    try {
+      const response = await interviewApi.generateIdealAnswer(modalQuestion.id);
+      
+      setModalQuestion(prev => ({
+        ...prev,
+        ideal_answer: response.ideal_answer
+      }));
+      
+      setQuestions(prevQuestions => 
+        prevQuestions.map(q => 
+          q.id === modalQuestion.id 
+            ? { ...q, ideal_answer: response.ideal_answer }
+            : q
+        )
+      );
+      
+    } catch (err) {
+      alert(err.message || "Failed to generate ideal answer");
+    } finally {
+      setIsGeneratingIdeal(false);
+    }
   };
 
   const cvNames = Array.from(new Set(questions.map(q => q.cv_name))).filter(Boolean);
@@ -220,18 +247,16 @@ const QuestionsList = () => {
                   <span className={`status-badge ${q.answered ? 'status-answered' : 'status-unanswered'}`}>
                     {q.answered ? '✅ Answered' : '⏳ Unanswered'}
                   </span>
-                  {q.ideal_answer && (
-                    <button 
-                      className="btn-secondary" 
-                      style={{ fontSize: '0.75rem', padding: '4px 8px', margin: 0 }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setModalQuestion(q);
-                      }}
-                    >
-                      ✨ View Ideal Answer
-                    </button>
-                  )}
+                  <button 
+                    className="btn-secondary" 
+                    style={{ fontSize: '0.75rem', padding: '4px 8px', margin: 0 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setModalQuestion(q);
+                    }}
+                  >
+                    ✨ View Ideal Answer
+                  </button>
                 </div>
                 
                 <div className="question-text">
@@ -259,9 +284,26 @@ const QuestionsList = () => {
               <div style={{ marginBottom: '16px', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
                 <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}><strong>Question:</strong> {modalQuestion.text}</p>
               </div>
-              <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)', whiteSpace: 'pre-wrap' }}>
-                {renderWithBold(typeof modalQuestion.ideal_answer === 'object' ? JSON.stringify(modalQuestion.ideal_answer) : modalQuestion.ideal_answer)}
-              </p>
+              
+              {modalQuestion.ideal_answer ? (
+                <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: 'var(--text-primary)', whiteSpace: 'pre-wrap' }}>
+                  {renderWithBold(typeof modalQuestion.ideal_answer === 'object' ? JSON.stringify(modalQuestion.ideal_answer) : modalQuestion.ideal_answer)}
+                </p>
+              ) : (
+                <div style={{ padding: '24px', textAlign: 'center', background: 'rgba(234, 179, 8, 0.1)', borderRadius: '8px', border: '1px solid rgba(234, 179, 8, 0.2)' }}>
+                  <p style={{ color: 'var(--warning)', margin: '0 0 16px 0', lineHeight: '1.5' }}>
+                    <strong>⚠️ Warning:</strong> The AI uses your specific attempt as context to tailor its ideal answer. Generating it now without answering first might cause it to miss some nuances and context.
+                  </p>
+                  <button 
+                    className="btn-primary" 
+                    onClick={handleGenerateIdealAnswer}
+                    disabled={isGeneratingIdeal}
+                    style={{ background: 'var(--warning)', color: '#000' }}
+                  >
+                    {isGeneratingIdeal ? 'Generating...' : 'Show Answer Now'}
+                  </button>
+                </div>
+              )}
             </div>
             
             <div className="qd-modal-footer">
