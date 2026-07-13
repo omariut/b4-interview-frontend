@@ -1,0 +1,40 @@
+.feedback-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.feedback-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feedback-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+.feedback-header p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.feedback-form-wrapper {
+  background: var(--bg-surface);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 16px;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+  min-height: 800px;
+  overflow: hidden;
+}
+
+/* On mobile, remove padding so the iframe uses maximum width */
+@media (max-width: 768px) {
+  .feedback-form-wrapper {
+    padding: 0;
+  }
+}
