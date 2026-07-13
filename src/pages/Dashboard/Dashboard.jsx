@@ -53,8 +53,17 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h1>Welcome Back</h1>
-        <p>Here is an overview of your interview preparations.</p>
+        <div className="header-title">
+          <h1>Welcome Back</h1>
+          <p>Here is an overview of your interview preparations.</p>
+        </div>
+        <button 
+          className="btn-primary" 
+          onClick={() => navigate('/upload-cv')}
+          style={{ padding: '12px 24px', fontSize: '1.05rem', boxShadow: '0 4px 12px rgba(56, 189, 248, 0.3)' }}
+        >
+          + Upload New CV
+        </button>
       </div>
 
       <div className="stats-grid">
@@ -74,11 +83,7 @@ const Dashboard = () => {
         ))}
       </div>
 
-      <div style={{ display: 'flex', gap: '16px', marginTop: '16px' }}>
-        <button className="btn-primary" onClick={() => navigate('/upload-cv')}>
-          + Upload New CV
-        </button>
-      </div>
+
 
       <div className="recent-activity">
         <h2>Recent Interviews</h2>

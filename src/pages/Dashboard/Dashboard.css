@@ -5,6 +5,23 @@
   animation: fadeIn var(--transition-normal);
 }
 
+.dashboard-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .dashboard-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+  }
+}
+
 .dashboard-header h1 {
   font-size: 2rem;
   margin-bottom: 8px;
