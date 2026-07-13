@@ -75,6 +75,12 @@ const Sidebar = ({ theme, toggleTheme }) => {
           <button className="dropdown-item" onClick={() => { navigate('/profile'); setIsProfileMenuOpen(false); }}>
             <span className="nav-icon">👤</span> Profile
           </button>
+          <button className="dropdown-item" onClick={() => { navigate('/subscription'); setIsProfileMenuOpen(false); }}>
+            <span className="nav-icon">⭐</span> Subscription
+          </button>
+          <button className="dropdown-item" onClick={() => { navigate('/payment-history'); setIsProfileMenuOpen(false); }}>
+            <span className="nav-icon">💳</span> Payment History
+          </button>
           <button className="dropdown-item" onClick={() => { toggleTheme(); setIsProfileMenuOpen(false); }}>
             <span className="nav-icon">{theme === 'dark' ? '☀️' : '🌙'}</span> 
             {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
@@ -141,21 +147,6 @@ const Sidebar = ({ theme, toggleTheme }) => {
             Questions
           </NavLink>
 
-          <NavLink 
-            to="/subscription" 
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          >
-            <span className="nav-icon">⭐</span>
-            Subscription
-          </NavLink>
-
-          <NavLink 
-            to="/payment-history" 
-            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-          >
-            <span className="nav-icon">💳</span>
-            Payment History
-          </NavLink>
         </div>
 
         <div className="sidebar-footer">
