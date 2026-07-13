@@ -98,6 +98,13 @@ const AnswersList = () => {
     );
   }
 
+  const groupedQuestions = questions.reduce((acc, q) => {
+    const claim = q.claim_text || 'General Questions';
+    if (!acc[claim]) acc[claim] = [];
+    acc[claim].push(q);
+    return acc;
+  }, {});
+
   return (
     <div className="answers-list-container">
       <div className="answers-list-header">
@@ -109,41 +116,45 @@ const AnswersList = () => {
         <table className="answers-table">
           <thead>
             <tr>
-              <th className="question-col">Claim & Question</th>
+              <th className="question-col">Question</th>
               <th className="answer-col">AI Ideal Answer</th>
             </tr>
           </thead>
           <tbody>
-            {questions.map((q) => (
-              <tr key={q.id} onClick={() => navigate(`/questions/${q.id}`)}>
-                <td className="question-col">
-                  {q.claim_text && (
-                    <div className="claim-badge">
-                      {q.claim_text.length > 50 ? q.claim_text.substring(0, 50) + '...' : q.claim_text}
-                    </div>
-                  )}
-                  <p className="question-text-bold">{q.text}</p>
-                </td>
-                <td className="answer-col">
-                  {q.ideal_answer ? (
-                    <div className="ideal-answer-text">
-                      {renderWithBold(typeof q.ideal_answer === 'object' ? JSON.stringify(q.ideal_answer) : q.ideal_answer)}
-                    </div>
-                  ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
-                      <span className="no-answer-placeholder">No ideal answer generated yet.</span>
-                      <button 
-                        className="btn-secondary" 
-                        style={{ fontSize: '0.8rem', padding: '6px 12px' }}
-                        onClick={(e) => handleGenerateIdealAnswer(e, q.id)}
-                        disabled={generatingId === q.id}
-                      >
-                        {generatingId === q.id ? 'Generating...' : '✨ Generate Now'}
-                      </button>
-                    </div>
-                  )}
-                </td>
-              </tr>
+            {Object.entries(groupedQuestions).map(([claim, qs]) => (
+              <React.Fragment key={claim}>
+                <tr className="claim-header-row">
+                  <td colSpan="2">
+                    <div className="claim-group-badge">{claim}</div>
+                  </td>
+                </tr>
+                {qs.map((q) => (
+                  <tr key={q.id} onClick={() => navigate(`/questions/${q.id}`)}>
+                    <td className="question-col">
+                      <p className="question-text-bold">{q.text}</p>
+                    </td>
+                    <td className="answer-col">
+                      {q.ideal_answer ? (
+                        <div className="ideal-answer-text">
+                          {renderWithBold(typeof q.ideal_answer === 'object' ? JSON.stringify(q.ideal_answer) : q.ideal_answer)}
+                        </div>
+                      ) : (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+                          <span className="no-answer-placeholder">No ideal answer generated yet.</span>
+                          <button 
+                            className="btn-secondary" 
+                            style={{ fontSize: '0.8rem', padding: '6px 12px' }}
+                            onClick={(e) => handleGenerateIdealAnswer(e, q.id)}
+                            disabled={generatingId === q.id}
+                          >
+                            {generatingId === q.id ? 'Generating...' : '✨ Generate Now'}
+                          </button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </React.Fragment>
             ))}
             {questions.length === 0 && (
               <tr>

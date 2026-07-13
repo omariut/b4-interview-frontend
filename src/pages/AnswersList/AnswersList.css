@@ -77,15 +77,25 @@
   min-width: 400px;
 }
 
-.claim-badge {
+.claim-header-row td {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.claim-header-row:hover {
+  background: rgba(0, 0, 0, 0.2) !important;
+  cursor: default !important;
+}
+
+.claim-group-badge {
   display: inline-block;
-  background: rgba(56, 189, 248, 0.1);
+  background: rgba(56, 189, 248, 0.15);
   color: var(--accent-primary);
-  padding: 4px 10px;
+  padding: 6px 14px;
   border-radius: 12px;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
