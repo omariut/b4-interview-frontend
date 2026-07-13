@@ -20,7 +20,7 @@
 
 .upload-zone {
   background: var(--bg-surface);
-  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border: 2px dashed var(--border-medium);
   border-radius: var(--border-radius-lg);
   padding: 64px 32px;
   text-align: center;

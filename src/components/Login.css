@@ -21,10 +21,10 @@ body {
 }
 
 .login-glass-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-hover-light);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-light);
   padding: 1.5rem; /* mobile padding */
   border-radius: 16px;
   width: 95%; /* slightly smaller than full width */
@@ -104,7 +104,7 @@ body {
 
 .input-group input {
   background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-light);
   padding: 1rem;
   border-radius: 12px;
   color: #fff;

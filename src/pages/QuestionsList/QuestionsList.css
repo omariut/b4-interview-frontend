@@ -28,7 +28,7 @@
   background: var(--bg-surface);
   padding: 8px;
   border-radius: var(--border-radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-hover-light);
   width: 100%;
   overflow-x: auto;
 }
@@ -68,7 +68,7 @@
 }
 
 .filter-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-hover-light);
   color: var(--text-primary);
 }
 
@@ -78,9 +78,9 @@
 }
 
 .filter-select {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-hover-light);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-light);
   padding: 8px 12px;
   border-radius: var(--border-radius-sm);
   font-family: inherit;
@@ -102,7 +102,7 @@
 
 .question-card {
   background: var(--bg-surface);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-hover-light);
   border-radius: var(--border-radius-md);
   padding: 24px;
   cursor: pointer;
@@ -164,7 +164,7 @@
   gap: 8px;
   align-items: flex-start;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--bg-hover-light);
 }
 
 .claim-icon {
@@ -177,5 +177,5 @@
   color: var(--text-secondary);
   background: var(--bg-surface);
   border-radius: var(--border-radius-md);
-  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border: 1px dashed var(--border-light);
 }

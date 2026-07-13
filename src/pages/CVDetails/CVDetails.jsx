@@ -213,7 +213,7 @@ const CVDetails = () => {
             justifyContent: 'space-between', 
             alignItems: 'center', 
             padding: '16px 32px',
-            borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+            borderTop: '1px solid var(--bg-hover-light)',
             background: 'var(--bg-surface)'
           }}>
             <button 
@@ -264,7 +264,7 @@ const CVDetails = () => {
                     whiteSpace: 'pre-wrap', 
                     textAlign: 'left',
                     marginTop: '1rem',
-                    background: 'rgba(255, 255, 255, 0.05)',
+                    background: 'var(--bg-hover-light)',
                     padding: '1.5rem',
                     borderRadius: '8px',
                     maxHeight: '40vh',

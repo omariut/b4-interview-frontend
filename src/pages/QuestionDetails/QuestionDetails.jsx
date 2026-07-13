@@ -432,7 +432,7 @@ const QuestionDetails = () => {
             </div>
             
             {isIdealAnswerOpen && (
-              <div style={{ marginTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.05)', paddingTop: '16px' }}>
+              <div style={{ marginTop: '16px', borderTop: '1px solid var(--bg-hover-light)', paddingTop: '16px' }}>
                 {questionData.ideal_answer ? (
                   <div className="qd-ideal-block" style={{ marginTop: '0' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>

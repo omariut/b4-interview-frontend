@@ -32,7 +32,7 @@
 .sub-status-card {
   background: rgba(30, 41, 59, 0.4);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-hover-light);
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 60px;
@@ -106,7 +106,7 @@
 .sub-plan-card {
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-hover-light);
   border-radius: 24px;
   padding: 40px 32px;
   display: flex;
@@ -118,13 +118,13 @@
 
 .sub-plan-card:hover {
   transform: translateY(-10px);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--border-medium);
   box-shadow: 0 30px 60px -20px rgba(0,0,0,0.7);
 }
 
 .sub-plan-card.current {
   border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 2px var(--bg-hover-light);
 }
 
 /* Pro Plan (Middle) */
@@ -247,10 +247,10 @@
 }
 
 .plan-btn.current {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-hover-light);
   color: #64748b;
   cursor: not-allowed;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-light);
 }
 
 .plan-btn.upgrade {
@@ -261,7 +261,7 @@
 .plan-btn.upgrade:hover:not(:disabled) {
   background: #f8fafc;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 20px var(--border-medium);
 }
 
 .popular .plan-btn.upgrade {
@@ -323,7 +323,7 @@
 .checkout-container {
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-light);
   border-radius: 20px;
   padding: 40px;
   max-width: 600px;
@@ -365,8 +365,8 @@
 }
 
 .bank-details-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-hover-light);
+  border: 1px solid var(--border-light);
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 32px;
@@ -397,7 +397,7 @@
 
 .voucher-form {
   background: rgba(255, 255, 255, 0.02);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border: 1px dashed var(--border-medium);
   border-radius: 12px;
   padding: 24px;
   text-align: center;

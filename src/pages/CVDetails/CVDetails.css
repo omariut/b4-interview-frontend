@@ -69,7 +69,7 @@
   align-items: flex-start;
   gap: 12px;
   margin-bottom: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-hover-light);
   padding-bottom: 16px;
 }
 
@@ -105,7 +105,7 @@
 
 .claim-card-clean {
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-hover-light);
   border-radius: var(--border-radius-lg);
   display: flex;
   flex-direction: column;
@@ -116,7 +116,7 @@
 
 .claim-card-clean:hover {
   background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-light);
 }
 
 .claim-card-header {
@@ -124,7 +124,7 @@
   gap: 16px;
   align-items: flex-start;
   padding: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-hover-light);
   background: rgba(0, 0, 0, 0.1);
 }
 
@@ -153,7 +153,7 @@
 
 .question-item-clean:hover {
   background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-light);
   transform: translateX(4px);
 }
 
@@ -211,8 +211,8 @@
 .answer-textarea {
   width: 100%;
   min-height: 120px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-hover-light);
+  border: 1px solid var(--border-light);
   border-radius: var(--border-radius-sm);
   padding: 16px;
   color: var(--text-primary);
@@ -282,7 +282,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-light);
   padding-bottom: 16px;
 }
 
@@ -301,7 +301,7 @@
 
 .history-item {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-hover-light);
   border-radius: var(--border-radius-sm);
   padding: 20px;
   margin-bottom: 16px;
@@ -316,8 +316,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-hover-light);
+  border: 1px solid var(--border-light);
   color: var(--text-primary);
   padding: 8px 16px;
   border-radius: 20px;
@@ -328,8 +328,8 @@
 }
 
 .btn-voice:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--border-light);
+  border-color: var(--border-medium);
 }
 
 .btn-voice:disabled {

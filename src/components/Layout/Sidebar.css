@@ -163,7 +163,7 @@
   .sidebar-header {
     display: block;
     padding: 0 24px 32px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--bg-hover-light);
     margin-bottom: 24px;
   }
   
@@ -200,7 +200,7 @@
   }
   
   .nav-link:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover-light);
     color: var(--text-primary);
   }
 
@@ -216,7 +216,7 @@
     display: block;
     margin-top: auto;
     padding: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--bg-hover-light);
   }
 
   .logout-btn {
@@ -348,7 +348,7 @@
 
 .dropdown-item.logout {
   color: var(--error);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--bg-hover-light);
 }
 
 [data-theme="light"] .dropdown-item.logout {

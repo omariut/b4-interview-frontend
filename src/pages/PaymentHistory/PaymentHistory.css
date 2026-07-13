@@ -27,7 +27,7 @@
 .no-history-card {
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-light);
   border-radius: 20px;
   padding: 60px;
   text-align: center;
@@ -51,7 +51,7 @@
 
 .history-card {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-light);
   border-radius: 12px;
   padding: 24px;
   display: flex;
@@ -63,7 +63,7 @@
 .history-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--border-medium);
 }
 
 .history-card-left h4 {
