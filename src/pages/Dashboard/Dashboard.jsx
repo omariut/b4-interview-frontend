@@ -53,16 +53,17 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <div className="header-title">
-          <h1>Welcome Back</h1>
-          <p>Here is an overview of your interview preparations.</p>
-        </div>
+        <h1>Welcome Back</h1>
+        <p>Here is an overview of your interview preparations.</p>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '16px', marginBottom: '16px' }}>
         <button 
           className="btn-primary" 
           onClick={() => navigate('/upload-cv')}
-          style={{ padding: '12px 24px', fontSize: '1.05rem', boxShadow: '0 4px 12px rgba(56, 189, 248, 0.3)' }}
+          style={{ padding: '16px 40px', fontSize: '1.25rem', boxShadow: '0 8px 24px rgba(56, 189, 248, 0.4)', borderRadius: '30px' }}
         >
-          + Upload New CV
+          ✨ Upload New CV
         </button>
       </div>
 
