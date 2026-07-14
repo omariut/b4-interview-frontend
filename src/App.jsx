@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Sidebar from './components/Layout/Sidebar';
+import Landing from './pages/Landing/Landing';
 
 // New Pages
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -35,12 +36,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
+        <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
 
         {/* Protected/Main App Routes wrapped in Sidebar Layout */}
         <Route element={<Sidebar theme={theme} toggleTheme={toggleTheme} />}>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/upload-cv" element={<CVUpload />} />
