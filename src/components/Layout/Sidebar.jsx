@@ -3,6 +3,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { authApi } from '../../services/api';
 import { usePostHog } from 'posthog-js/react';
 import './Sidebar.css';
+import PageLoader from '../PageLoader';
 
 const Sidebar = ({ theme, toggleTheme }) => {
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ const Sidebar = ({ theme, toggleTheme }) => {
         });
       }
     } catch (e) {
-      // ignore
+      localStorage.removeItem('access_token');
+      navigate('/login', { replace: true });
     }
   };
 
@@ -35,6 +37,14 @@ const Sidebar = ({ theme, toggleTheme }) => {
     window.addEventListener('profileUpdated', fetchProfile);
     return () => window.removeEventListener('profileUpdated', fetchProfile);
   }, []);
+
+  if (!user) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <PageLoader/>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
