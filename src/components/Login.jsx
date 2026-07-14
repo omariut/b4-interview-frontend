@@ -19,6 +19,12 @@ const Login = () => {
   
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    if (localStorage.getItem('access_token')) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
+
   const handleGoogleSuccess = async (credentialResponse) => {
     setError('');
     setSuccessMessage('');
