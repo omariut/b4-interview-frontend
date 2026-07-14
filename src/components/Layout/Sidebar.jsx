@@ -38,14 +38,6 @@ const Sidebar = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener('profileUpdated', fetchProfile);
   }, []);
 
-  if (!user) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <PageLoader/>
-      </div>
-    );
-  }
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       const clickedMobile = mobileMenuRef.current && mobileMenuRef.current.contains(event.target);
@@ -57,6 +49,14 @@ const Sidebar = ({ theme, toggleTheme }) => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  if (!user) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <PageLoader/>
+      </div>
+    );
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
