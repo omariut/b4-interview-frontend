@@ -120,10 +120,11 @@
 }
 
 .btn-primary {
-  background: var(--primary-color);
+  background: var(--accent-gradient);
   color: white;
   border: none;
   padding: 0.6rem 1.5rem;
+  border-radius: var(--border-radius-sm);
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
@@ -134,13 +135,12 @@
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
-  background: var(--primary-light);
+  background: var(--accent-gradient-hover);
 }
 
 .btn-large {
   padding: 1rem 2.5rem;
   font-size: 1.1rem;
-  border-radius: 12px;
 }
 
 /* Animations */
