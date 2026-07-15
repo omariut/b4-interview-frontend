@@ -14,7 +14,8 @@
   --accent-primary: #38bdf8;
   --accent-secondary: #818cf8;
   --accent-gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  --accent-gradient-hover: linear-gradient(135deg, #7dd3fc, #a5b4fc);
+  /* --accent-gradient-hover: linear-gradient(135deg, #7dd3fc, #a5b4fc); */
+  --accent-gradient-hover: linear-gradient(135deg, #0284c7, #4f46e5);
   
   /* Success/Error */
   --success: #10b981;
