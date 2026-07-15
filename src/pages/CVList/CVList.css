@@ -109,3 +109,115 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+
+
+
+.cv-stats-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  background: var(--bg-surface);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-md);
+}
+
+@media screen and (min-width: 600px) {
+  .cv-stats-banner {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    flex: 1;
+    min-width: 180px;
+  }
+}
+
+
+.cv-table-container {
+  background: var(--bg-surface);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 0;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-shadow: var(--glass-shadow);
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .cv-table-container {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .cv-table, 
+  .cv-table thead, 
+  .cv-table tbody, 
+  .cv-table th, 
+  .cv-table td, 
+  .cv-table tr { 
+    display: block; 
+    width: 100%;
+  }
+
+  
+  .cv-table thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+
+  .cv-table tbody tr {
+    margin-bottom: 16px;
+    background: var(--bg-surface);
+    border: var(--glass-border);
+    border-radius: var(--border-radius-md);
+    padding: 16px;
+    box-shadow: var(--glass-shadow);
+  }
+
+  .cv-table tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+
+  .cv-table td {
+    padding: 8px 0 !important;
+    border-bottom: 1px dashed var(--bg-hover-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+
+  .cv-table td:first-child {
+    padding-top: 0 !important;
+  }
+  
+  .cv-table td:last-child {
+    border-bottom: none;
+    padding-bottom: 0 !important;
+    margin-top: 8px;
+    justify-content: flex-end; 
+  }
+
+  
+  .cv-table td:nth-child(2)::before { content: "Upload Date"; font-weight: 600; color: var(--text-secondary); }
+  .cv-table td:nth-child(3)::before { content: "Experience"; font-weight: 600; color: var(--text-secondary); }
+  .cv-table td:nth-child(4)::before { content: "Claims"; font-weight: 600; color: var(--text-secondary); }
+  .cv-table td:nth-child(5)::before { content: "Questions"; font-weight: 600; color: var(--text-secondary); }
+}
