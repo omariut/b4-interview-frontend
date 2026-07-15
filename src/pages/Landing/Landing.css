@@ -107,7 +107,7 @@
 .btn-secondary {
   background: transparent;
   color: var(--text-primary);
-  border: none;
+  border: 1px solid var(--text-secondary);
   font-weight: 600;
   cursor: pointer;
   padding: 0.5rem 1rem;
@@ -116,7 +116,7 @@
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
 }
 
 .btn-primary {
@@ -228,13 +228,14 @@
 .feature-card {
   padding: 2.5rem;
   border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   text-align: left;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .feature-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.2);
   border-color: rgba(255,255,255,0.2);
 }
 
