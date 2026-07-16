@@ -71,6 +71,20 @@ export const authApi = {
     });
   },
 
+  generateWhatsappLink: async () => {
+    return fetchWithAuth('/auth/whatsapp/generate-link', {
+      method: 'POST'
+    });
+  },
+
+  verifyWhatsappOtp: async (otp) => {
+    return fetchWithAuth('/auth/whatsapp/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ otp })
+    });
+  },
+
   uploadProfilePicture: async (file) => {
     const formData = new FormData();
     formData.append('file', file);
