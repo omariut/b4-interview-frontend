@@ -418,4 +418,27 @@
     gap: 1rem;
     text-align: center;
   }
+  .header-actions {
+    gap: 0.4rem; 
+  }
+
+  
+  .header-actions .btn-secondary,
+  .header-actions .btn-primary {
+    display: inline-block; 
+    padding: 0.4rem 0.8rem; 
+    font-size: 0.8rem; 
+    border-radius: 6px;
+  }
+
+
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+
+  .logo-text {
+    font-size: 1.3rem; 
+  }
 }
