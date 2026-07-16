@@ -239,7 +239,7 @@ const Profile = () => {
               </p>
               <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                 <a 
-                  href={`https://wa.me/${botNumber}?text=${verifyCode}`}
+                  href={`https://api.whatsapp.com/send?phone=${botNumber}&text=${verifyCode}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ 
