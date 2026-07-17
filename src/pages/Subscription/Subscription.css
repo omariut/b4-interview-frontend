@@ -3,7 +3,7 @@
   max-width: 1200px;
   margin: 0 auto;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #f0f0f0;
+  color: var(--text-primary);
 }
 
 .sub-header {
@@ -14,7 +14,7 @@
 .sub-header h1 {
   font-size: 3rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0 0 16px 0;
@@ -22,7 +22,7 @@
 }
 
 .sub-header p {
-  color: #94a3b8;
+  color: var(--text-secondary);
   font-size: 1.25rem;
   margin: 0;
   font-weight: 400;
@@ -30,16 +30,17 @@
 
 /* Status Card */
 .sub-status-card {
-  background: rgba(30, 41, 59, 0.4);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--bg-hover-light);
-  border-radius: 20px;
-  padding: 32px;
-  margin-bottom: 60px;
-  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+  background: var(--bg-surface);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 24px;
+  margin-bottom: 40px;
+  box-shadow: var(--glass-shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   position: relative;
   overflow: hidden;
 }
@@ -51,32 +52,38 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  background: var(--accent-gradient);
 }
 
 .sub-status-card h3 {
-  margin: 0 0 16px 0;
-  font-size: 1.4rem;
+  margin: 0 0 12px 0;
+  font-size: clamp(1.1rem, 4vw, 1.4rem); /* ফ্লুইড ফন্ট সাইজ: মোবাইলে অটো ছোট হবে */
   font-weight: 600;
-  color: #e2e8f0;
+  color: var(--text-primary);
+  line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap; /* লেখা বেশি বড় হলে সুন্দরভাবে নিচে নামবে */
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
 }
 
 .sub-status-card h3 span {
-  background: linear-gradient(90deg, #60a5fa, #a78bfa);
+  background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
-  padding-left: 8px;
+  display: inline-block;
 }
 
 .sub-status-card p {
-  margin: 8px 0;
-  font-size: 1.1rem;
-  color: #94a3b8;
+  margin: 4px 0 0 0;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  color: var(--text-secondary);
 }
 
 .sub-status-card p strong {
-  color: #f8fafc;
+  color: var(--text-primary);
   font-size: 1.2rem;
   font-weight: 700;
 }
@@ -85,7 +92,7 @@
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
-  color: #f8fafc;
+  color: var(--text-primary);
   margin-bottom: 40px;
 }
 
@@ -104,52 +111,54 @@
 }
 
 .sub-plan-card {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--bg-hover-light);
-  border-radius: 24px;
+  background: var(--bg-surface);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-lg);
   padding: 40px 32px;
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
+  transition: all var(--transition-normal);
+  box-shadow: var(--glass-shadow);
 }
 
 .sub-plan-card:hover {
   transform: translateY(-10px);
   border-color: var(--border-medium);
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.7);
+  background: var(--bg-surface-hover);
 }
 
 .sub-plan-card.current {
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 2px var(--bg-hover-light);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--accent-primary);
 }
 
 /* Pro Plan (Middle) */
 .sub-plan-card.popular {
-  background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
+  /* background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
   border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 20px 40px -20px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 20px 40px -20px rgba(59, 130, 246, 0.4); */
+  border-color: var(--accent-primary);
 }
 
-.sub-plan-card.popular:hover {
+/* .sub-plan-card.popular:hover {
   border-color: rgba(59, 130, 246, 0.8);
   box-shadow: 0 30px 60px -20px rgba(59, 130, 246, 0.6);
-}
+} */
 
 /* Elite Plan */
 .sub-plan-card.elite {
-  background: linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
+  /* background: linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
   border-color: rgba(168, 85, 247, 0.5);
-  box-shadow: 0 20px 40px -20px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 20px 40px -20px rgba(168, 85, 247, 0.4); */
+  border-color: var(--accent-secondary);
 }
 
-.sub-plan-card.elite:hover {
+/* .sub-plan-card.elite:hover {
   border-color: rgba(168, 85, 247, 0.8);
   box-shadow: 0 30px 60px -20px rgba(168, 85, 247, 0.6);
-}
+} */
 
 /* Badges */
 .popular-badge {
@@ -157,7 +166,7 @@
   top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  background: var(--accent-gradient);
   color: white;
   padding: 6px 16px;
   border-radius: 24px;
@@ -168,28 +177,28 @@
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.5);
 }
 
-.elite .popular-badge {
+/* .elite .popular-badge {
   background: linear-gradient(90deg, #a855f7, #7e22ce);
   box-shadow: 0 4px 15px rgba(168, 85, 247, 0.5);
-}
+} */
 
 /* Plan Details */
 .plan-name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #94a3b8;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   margin-bottom: 16px;
 }
 
-.popular .plan-name { color: #60a5fa; }
-.elite .plan-name { color: #c084fc; }
+.popular .plan-name { color: var(--accent-primary); }
+.elite .plan-name { color: var(--accent-secondary); }
 
 .plan-price {
   font-size: 3.5rem;
   font-weight: 800;
-  color: #f8fafc;
+  color: var(--text-primary);
   margin-bottom: 32px;
   line-height: 1;
 }
@@ -197,7 +206,7 @@
 .plan-price span {
   font-size: 1.2rem;
   font-weight: 500;
-  color: #64748b;
+  color: var(--text-secondary);
   margin-left: 4px;
 }
 
@@ -211,7 +220,7 @@
 
 .plan-features li {
   margin-bottom: 20px;
-  color: #e2e8f0;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 16px;
@@ -220,7 +229,7 @@
 
 .plan-features li::before {
   content: "✓";
-  color: #10b981;
+  color: var(--success);
   font-weight: 900;
   font-size: 1.2rem;
   background: rgba(16, 185, 129, 0.1);
@@ -236,35 +245,35 @@
 .plan-btn {
   width: 100%;
   padding: 16px;
-  border-radius: 12px;
+  border-radius: var(--border-radius-sm);
   font-size: 1.15rem;
   font-weight: 700;
   cursor: pointer;
   border: none;
-  transition: all 0.3s ease;
+  transition: all var(--transition-fast);;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .plan-btn.current {
   background: var(--bg-hover-light);
-  color: #64748b;
+  color: var(--text-secondary);
   cursor: not-allowed;
   border: 1px solid var(--border-light);
 }
 
 .plan-btn.upgrade {
-  background: white;
-  color: #0f172a;
+  background: var(--accent-gradient);
+  color: white;
 }
 
 .plan-btn.upgrade:hover:not(:disabled) {
-  background: #f8fafc;
+  background: var(--accent-gradient-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px var(--border-medium);
+  /* box-shadow: 0 8px 20px var(--border-medium); */
 }
 
-.popular .plan-btn.upgrade {
+/* .popular .plan-btn.upgrade {
   background: linear-gradient(90deg, #3b82f6, #2563eb);
   color: white;
 }
@@ -280,7 +289,7 @@
 
 .elite .plan-btn.upgrade:hover:not(:disabled) {
   box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
-}
+} */
 
 .plan-btn:disabled {
   opacity: 0.6;
@@ -294,23 +303,53 @@
   .sub-header h1 {
     font-size: 2.2rem;
   }
+  .sub-header p {
+    font-size: 1rem;
+  }
+
+  .sub-status-card {
+    padding: 32px;
+    margin-bottom: 60px;
+  }
   
   .sub-plans-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .sub-plan-card {
+    padding: 28px 20px; /* মোবাইলে প্যাডিং একটু কমানো হয়েছে */
+  }
+
+  .plan-price {
+    font-size: 2.5rem; /* প্রাইস ফন্ট সাইজ রেসপন্সিভ করা হয়েছে */
+  }
+
+  .checkout-container {
+    padding: 24px 16px;
+  }
+
+  .bank-details-card li {
+    display: flex;
+    flex-direction: column; /* মোবাইলে ব্যাংক ডিটেইলস এক লাইনে না এঁটে ওপর-নিচে আসবে */
+    gap: 4px;
+  }
+
+  .bank-details-card li strong {
+    width: auto;
   }
 }
 
 /* Checkout and Pending States */
 .pending-banner {
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.05));
-  border: 1px solid rgba(245, 158, 11, 0.4);
-  color: #fcd34d;
+  border: 1px solid var(--warning);
+  color: var(--warning);
   padding: 16px 24px;
-  border-radius: 12px;
+  border-radius: var(--border-radius-sm);;
   margin-bottom: 32px;
   text-align: center;
   font-weight: 500;
-  backdrop-filter: blur(10px);
+  backdrop-filter: var(--glass-blur);
   animation: pulse-glow 2s infinite;
 }
 
@@ -321,10 +360,10 @@
 }
 
 .checkout-container {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-light);
-  border-radius: 20px;
+  background: var(--bg-surface);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-md);
   padding: 40px;
   max-width: 600px;
   margin: 0 auto 40px;
@@ -344,7 +383,7 @@
   cursor: pointer;
   margin-bottom: 24px;
   padding: 0;
-  transition: color 0.2s ease;
+  transition: color var(--transition-fast);;
 }
 
 .back-btn:hover {
@@ -354,9 +393,10 @@
 .checkout-container h2 {
   font-size: 1.8rem;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, #fff, #94a3b8);
+  color: var(--text-primary);
+  /* background: linear-gradient(135deg, #fff, #94a3b8);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent; */
 }
 
 .checkout-container p {
@@ -366,8 +406,8 @@
 
 .bank-details-card {
   background: var(--bg-hover-light);
-  border: 1px solid var(--border-light);
-  border-radius: 12px;
+  border: var(--glass-border);
+  border-radius: var(--border-radius-sm);
   padding: 24px;
   margin-bottom: 32px;
 }
@@ -396,15 +436,16 @@
 }
 
 .voucher-form {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--skeleton-base);
   border: 1px dashed var(--border-medium);
-  border-radius: 12px;
+  border-radius: var(--border-radius-sm);
   padding: 24px;
   text-align: center;
 }
 
 .voucher-form h3 {
   margin-bottom: 12px;
+  color: var(--text-primary);
 }
 
 .voucher-input {
@@ -412,8 +453,9 @@
   width: 100%;
   margin: 24px 0;
   padding: 16px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  background: var(--bg-hover-light);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-sm);
   color: var(--text-primary);
   cursor: pointer;
 }
@@ -427,7 +469,7 @@
   margin-right: 16px;
   cursor: pointer;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);;
 }
 
 .voucher-input::file-selector-button:hover {
@@ -445,4 +487,9 @@
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+.error-message {
+  color: var(--error);
+  font-weight: 500;
 }
