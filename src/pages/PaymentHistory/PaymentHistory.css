@@ -1,5 +1,5 @@
 .history-container {
-  padding: 40px;
+  padding: 40px 24px;
   max-width: 900px;
   margin: 0 auto;
   color: var(--text-primary);
@@ -14,7 +14,7 @@
 .history-header h1 {
   font-size: 2.5rem;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, #fff, #94a3b8);
+  background: linear-gradient(135deg, var(--text-primary), var(--accent-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -25,12 +25,13 @@
 }
 
 .no-history-card {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-light);
-  border-radius: 20px;
-  padding: 60px;
+  background: var(--bg-surface);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 60px 24px;
   text-align: center;
+  box-shadow: var(--glass-shadow);
 }
 
 .no-history-card h3 {
@@ -50,57 +51,76 @@
 }
 
 .history-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-light);
-  border-radius: 12px;
+  background: var(--bg-surface);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--border-radius-sm);
   padding: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  box-shadow: var(--glass-shadow);
 }
 
 .history-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   border-color: var(--border-medium);
+  background: var(--bg-surface-hover);
 }
 
 .history-card-left h4 {
   font-size: 1.2rem;
-  margin-bottom: 8px;
+  margin-bottom:0 0 8px 0;
   color: var(--text-primary);
 }
 
 .history-date {
   color: var(--text-secondary);
   font-size: 0.9rem;
+  margin: 0;
+}
+
+.view-voucher-link {
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.view-voucher-link:hover {
+  color: var(--accent-secondary);
+  text-decoration: underline;
 }
 
 .status-badge {
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 .status-pending {
   background: rgba(245, 158, 11, 0.15);
-  color: #fcd34d;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: var(--warning);
+  border: 1px solid var(--warning);
 }
 
 .status-approved {
   background: rgba(16, 185, 129, 0.15);
-  color: #6ee7b7;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--success);
+  border: 1px solid var(--success);
 }
 
 .status-rejected {
   background: rgba(239, 68, 68, 0.15);
-  color: #fca5a5;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--error);
+  border: 1px solid var(--error);
 }
 
 @keyframes fade-in {
@@ -108,15 +128,17 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.view-voucher-link {
-  color: #3b82f6;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.view-voucher-link:hover {
-  color: #60a5fa;
-  text-decoration: underline;
+@media (max-width: 600px) {
+  .history-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .history-card-right {
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-light);
+    padding-top: 12px;
+  }
 }

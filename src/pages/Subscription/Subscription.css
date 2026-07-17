@@ -57,12 +57,12 @@
 
 .sub-status-card h3 {
   margin: 0 0 12px 0;
-  font-size: clamp(1.1rem, 4vw, 1.4rem); /* ফ্লুইড ফন্ট সাইজ: মোবাইলে অটো ছোট হবে */
+  font-size: clamp(1.1rem, 4vw, 1.4rem); 
   font-weight: 600;
   color: var(--text-primary);
   line-height: 1.4;
   display: flex;
-  flex-wrap: wrap; /* লেখা বেশি বড় হলে সুন্দরভাবে নিচে নামবে */
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 6px;
@@ -136,29 +136,18 @@
 
 /* Pro Plan (Middle) */
 .sub-plan-card.popular {
-  /* background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 20px 40px -20px rgba(59, 130, 246, 0.4); */
   border-color: var(--accent-primary);
 }
 
-/* .sub-plan-card.popular:hover {
-  border-color: rgba(59, 130, 246, 0.8);
-  box-shadow: 0 30px 60px -20px rgba(59, 130, 246, 0.6);
-} */
+
 
 /* Elite Plan */
 .sub-plan-card.elite {
-  /* background: linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
-  border-color: rgba(168, 85, 247, 0.5);
-  box-shadow: 0 20px 40px -20px rgba(168, 85, 247, 0.4); */
+
   border-color: var(--accent-secondary);
 }
 
-/* .sub-plan-card.elite:hover {
-  border-color: rgba(168, 85, 247, 0.8);
-  box-shadow: 0 30px 60px -20px rgba(168, 85, 247, 0.6);
-} */
+
 
 /* Badges */
 .popular-badge {
@@ -177,10 +166,7 @@
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.5);
 }
 
-/* .elite .popular-badge {
-  background: linear-gradient(90deg, #a855f7, #7e22ce);
-  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.5);
-} */
+
 
 /* Plan Details */
 .plan-name {
@@ -270,26 +256,10 @@
 .plan-btn.upgrade:hover:not(:disabled) {
   background: var(--accent-gradient-hover);
   transform: translateY(-2px);
-  /* box-shadow: 0 8px 20px var(--border-medium); */
+  
 }
 
-/* .popular .plan-btn.upgrade {
-  background: linear-gradient(90deg, #3b82f6, #2563eb);
-  color: white;
-}
 
-.popular .plan-btn.upgrade:hover:not(:disabled) {
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
-}
-
-.elite .plan-btn.upgrade {
-  background: linear-gradient(90deg, #a855f7, #7e22ce);
-  color: white;
-}
-
-.elite .plan-btn.upgrade:hover:not(:disabled) {
-  box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
-} */
 
 .plan-btn:disabled {
   opacity: 0.6;
@@ -317,11 +287,11 @@
     gap: 24px;
   }
   .sub-plan-card {
-    padding: 28px 20px; /* মোবাইলে প্যাডিং একটু কমানো হয়েছে */
+    padding: 28px 20px; 
   }
 
   .plan-price {
-    font-size: 2.5rem; /* প্রাইস ফন্ট সাইজ রেসপন্সিভ করা হয়েছে */
+    font-size: 2.5rem; 
   }
 
   .checkout-container {
@@ -330,7 +300,7 @@
 
   .bank-details-card li {
     display: flex;
-    flex-direction: column; /* মোবাইলে ব্যাংক ডিটেইলস এক লাইনে না এঁটে ওপর-নিচে আসবে */
+    flex-direction: column; 
     gap: 4px;
   }
 
@@ -394,9 +364,6 @@
   font-size: 1.8rem;
   margin-bottom: 12px;
   color: var(--text-primary);
-  /* background: linear-gradient(135deg, #fff, #94a3b8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; */
 }
 
 .checkout-container p {
