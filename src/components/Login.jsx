@@ -15,11 +15,14 @@ const Login = () => {
     setTheme(newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+    window.dispatchEvent(new Event('themeChanged'));
   };
   
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    
     if (localStorage.getItem('access_token')) {
       navigate('/dashboard', { replace: true });
     }
