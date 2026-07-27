@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    allowedHosts: ['b4interview.com'],
+    allowedHosts: ['b4interview.com', 'www.b4interview.com'],
   },
   resolve: {
     dedupe: ['react', 'react-dom']

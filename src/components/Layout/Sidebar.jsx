@@ -25,8 +25,7 @@ const Sidebar = ({ theme, toggleTheme }) => {
         });
       }
     } catch (e) {
-      localStorage.removeItem('access_token');
-      navigate('/login', { replace: true });
+      console.error('Failed to fetch profile:', e);
     }
   };
 
@@ -60,6 +59,7 @@ const Sidebar = ({ theme, toggleTheme }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     if (posthog) posthog.reset();
     navigate('/login');
   };

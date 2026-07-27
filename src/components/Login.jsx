@@ -38,6 +38,9 @@ const Login = () => {
       const data = await authApi.loginWithGoogle(credentialResponse.credential);
 
       localStorage.setItem('access_token', data.access_token);
+      if (data.refresh_token) {
+        localStorage.setItem('refresh_token', data.refresh_token);
+      }
       setSuccessMessage(`Login successful! Taking you to the dashboard...`);
       
       setTimeout(() => navigate('/dashboard'), 1000);

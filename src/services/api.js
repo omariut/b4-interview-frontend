@@ -10,6 +10,18 @@ const getAuthHeaders = () => {
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
+let isRefreshing = false;
+let refreshSubscribers = [];
+
+const subscribeTokenRefresh = (cb) => {
+  refreshSubscribers.push(cb);
+};
+
+const onRefreshed = (token) => {
+  refreshSubscribers.map(cb => cb(token));
+  refreshSubscribers = [];
+};
+
 // Helper for generic fetch wrapper to handle errors consistently
 const fetchWithAuth = async (endpoint, options = {}) => {
   const headers = {
@@ -17,17 +29,72 @@ const fetchWithAuth = async (endpoint, options = {}) => {
     ...(options.headers || {})
   };
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  let response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
     headers
   });
+
+  if (response.status === 401) {
+    const refreshToken = localStorage.getItem('refresh_token');
+    
+    if (refreshToken) {
+      if (!isRefreshing) {
+        isRefreshing = true;
+        try {
+          const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ refresh_token: refreshToken })
+          });
+          
+          if (refreshResponse.ok) {
+            const refreshData = await refreshResponse.json();
+            localStorage.setItem('access_token', refreshData.access_token);
+            if (refreshData.refresh_token) {
+              localStorage.setItem('refresh_token', refreshData.refresh_token);
+            }
+            onRefreshed(refreshData.access_token);
+          } else {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            onRefreshed(null);
+            window.location.href = '/login';
+            throw new Error('Session expired');
+          }
+        } catch (e) {
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          onRefreshed(null);
+          window.location.href = '/login';
+          throw e;
+        } finally {
+          isRefreshing = false;
+        }
+      }
+      
+      const newAccessToken = await new Promise(resolve => {
+        subscribeTokenRefresh(token => resolve(token));
+      });
+      
+      if (newAccessToken) {
+        const newHeaders = {
+          ...options.headers,
+          'Authorization': `Bearer ${newAccessToken}`
+        };
+        response = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, headers: newHeaders });
+      }
+    } else {
+      localStorage.removeItem('access_token');
+      window.location.href = '/login';
+    }
+  }
 
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
     if (response.status === 401) {
-      // Clear token and force redirect if unauthorized
       localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
       window.location.href = '/login';
     }
     throw new Error((data && data.detail) || 'An unexpected error occurred');
