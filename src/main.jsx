@@ -19,7 +19,8 @@ if (import.meta.env.VITE_SENTRY_DSN) {
 }
 
 // Initialize PostHog for Analytics and Replays
-if (import.meta.env.VITE_POSTHOG_KEY) {
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+if (import.meta.env.VITE_POSTHOG_KEY && !isLocalhost) {
   posthog.init(import.meta.env.VITE_POSTHOG_KEY, {
     api_host: import.meta.env.VITE_POSTHOG_HOST || 'https://us.i.posthog.com',
     person_profiles: 'identified_only',
