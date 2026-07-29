@@ -187,7 +187,13 @@ const QuestionDetails = () => {
   };
 
   const handleSubmitAnswer = async () => {
-    if (!currentAnswer.trim() || isSubmitting) return;
+    if (isSubmitting) return;
+
+    const wordCount = currentAnswer.trim() ? currentAnswer.trim().split(/\s+/).filter(Boolean).length : 0;
+    if (wordCount < 10) {
+      setSubmitError("Please write at least 10 words before submitting your answer.");
+      return;
+    }
     
     setIsSubmitting(true);
     setSubmitError('');
@@ -371,9 +377,9 @@ const QuestionDetails = () => {
                     background: 'rgba(255,255,255,0.1)',
                     padding: '4px 8px',
                     borderRadius: '12px',
-                    color: currentAnswer.trim().split(/\s+/).filter(Boolean).length >= 20 ? 'var(--success)' : 'var(--text-secondary)'
+                    color: currentAnswer.trim().split(/\s+/).filter(Boolean).length >= 10 ? 'var(--success)' : 'var(--text-secondary)'
                   }}>
-                    {currentAnswer.trim() ? currentAnswer.trim().split(/\s+/).filter(Boolean).length : 0} / 20 min words
+                    {currentAnswer.trim() ? currentAnswer.trim().split(/\s+/).filter(Boolean).length : 0} / 10 min words
                   </span>
                 )}
               </h3>
@@ -393,7 +399,10 @@ const QuestionDetails = () => {
               className="qd-textarea" 
               placeholder={isLimitReached ? "You have reached the maximum limit of 3 attempts." : "Type your answer here or click Voice to speak..."}
               value={currentAnswer}
-              onChange={(e) => setCurrentAnswer(e.target.value)}
+              onChange={(e) => {
+                setCurrentAnswer(e.target.value);
+                if (submitError) setSubmitError('');
+              }}
               disabled={isSubmitting || isLimitReached}
             />
             
@@ -405,9 +414,9 @@ const QuestionDetails = () => {
             
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
               <button 
-                className="btn-primary" 
+                className={`btn-primary ${(!currentAnswer.trim() || currentAnswer.trim().split(/\\s+/).filter(Boolean).length < 10) ? 'btn-disabled-visual' : ''}`} 
                 onClick={handleSubmitAnswer} 
-                disabled={!currentAnswer.trim() || isSubmitting || isLimitReached || (currentAnswer.trim().split(/\s+/).filter(Boolean).length < 20)}
+                disabled={isSubmitting || isLimitReached}
               >
                 {isSubmitting ? (
                    <span>Grading with AI... <span className="spinner">⏳</span></span>

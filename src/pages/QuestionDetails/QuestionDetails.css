@@ -256,13 +256,6 @@
   color: rgba(255, 255, 255, 0.3);
 }
 
-.btn-primary:disabled {
-  background: var(--bg-hover-light);
-  color: var(--text-secondary);
-  cursor: not-allowed;
-  border: 1px solid var(--border-light);
-}
-
 .btn-voice:disabled {
   background: var(--bg-hover-light);
   color: var(--text-secondary);
