@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
+import ServerErrorToast from './components/ServerErrorToast/ServerErrorToast';
 import Sidebar from './components/Layout/Sidebar';
 import Landing from './pages/Landing/Landing';
 
@@ -33,6 +34,8 @@ function App() {
   };
 
   return (
+    <>
+    <ServerErrorToast />
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
@@ -57,6 +60,7 @@ function App() {
 
       </Routes>
     </BrowserRouter>
+    </>
   );
 }
 

@@ -97,6 +97,13 @@ const fetchWithAuth = async (endpoint, options = {}) => {
       localStorage.removeItem('refresh_token');
       window.location.href = '/login';
     }
+
+    if (response.status === 500) {
+      window.dispatchEvent(new CustomEvent('server-error', {
+        detail: { message: (data && data.detail) || 'Internal server error. Please try again later.' }
+      }));
+    }
+
     throw new Error((data && data.detail) || 'An unexpected error occurred');
   }
 
