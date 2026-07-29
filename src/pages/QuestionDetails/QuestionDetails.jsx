@@ -414,7 +414,7 @@ const QuestionDetails = () => {
             
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
               <button 
-                className={`btn-primary ${(!currentAnswer.trim() || currentAnswer.trim().split(/\\s+/).filter(Boolean).length < 10) ? 'btn-disabled-visual' : ''}`} 
+                className={`btn-primary ${(!currentAnswer.trim() || currentAnswer.trim().split(/\s+/).filter(Boolean).length < 10) ? 'btn-disabled-visual' : ''}`} 
                 onClick={handleSubmitAnswer} 
                 disabled={isSubmitting || isLimitReached}
               >
