@@ -23,6 +23,9 @@ const Sidebar = ({ theme, toggleTheme }) => {
           name: data.full_name,
           phone: data.phone_number
         });
+        if (data.email === 'omarcpgcbl@gmail.com') {
+          posthog.opt_out_capturing();
+        }
       }
     } catch (e) {
       console.error('Failed to fetch profile:', e);
