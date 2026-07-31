@@ -23,7 +23,8 @@ const Sidebar = ({ theme, toggleTheme }) => {
           name: data.full_name,
           phone: data.phone_number
         });
-        if (data.email === 'omarcpgcbl@gmail.com') {
+        const INTERNAL_EMAILS = ['omarcpgcbl@gmail.com', 'mir.arfan.iiuc9@gmail.com'];
+        if (INTERNAL_EMAILS.includes(data.email)) {
           posthog.opt_out_capturing();
         }
       }
