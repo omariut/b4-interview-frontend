@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { authApi } from '../../services/api';
 import './Profile.css';
 
+// WhatsApp linking/verification is temporarily disabled. Flip to true to restore the UI.
+const WHATSAPP_VERIFICATION_ENABLED = false;
+
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,7 +22,6 @@ const Profile = () => {
       const data = await authApi.getMe();
       setUser(data);
       setFullName(data.full_name || '');
-      setWhatsappNumber(data.whatsapp_number || '');
     } catch (err) {
       setError('Failed to load profile.');
     } finally {
@@ -197,6 +199,7 @@ const Profile = () => {
             />
           </div>
 
+          {WHATSAPP_VERIFICATION_ENABLED && (
           <div className="form-group">
             <label>WhatsApp Account</label>
             {!user?.whatsapp_number ? (
@@ -230,8 +233,9 @@ const Profile = () => {
               </div>
             )}
           </div>
+          )}
 
-          {showOtpInput && (
+          {WHATSAPP_VERIFICATION_ENABLED && showOtpInput && (
             <div className="form-group fade-in" style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--primary-color)' }}>
               <label style={{ color: 'var(--primary-color)' }}>Complete Verification</label>
               <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: 'var(--text-secondary)' }}>
