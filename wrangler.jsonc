@@ -1,0 +1,21 @@
+{
+  // b4interview.com is served from Cloudflare as static assets (no container,
+  // and no Vite dev server in production).
+  // Cloudflare builds and deploys this on every push to main:
+  //   build:  npm ci && npm run build   (needs the five VITE_ variables)
+  //   deploy: npx wrangler deploy
+  "name": "b4-interview",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  // Routes sit in front of the zone's existing proxied DNS records, so no DNS record
+  // is created or removed. api.b4interview.com is not matched and stays on the server.
+  "routes": [
+    { "pattern": "b4interview.com/*", "zone_name": "b4interview.com" },
+    { "pattern": "www.b4interview.com/*", "zone_name": "b4interview.com" }
+  ],
+  "assets": {
+    "directory": "./dist",
+    // Every route is client-side: a deep link or refresh gets the app, not a 404.
+    "not_found_handling": "single-page-application"
+  }
+}
